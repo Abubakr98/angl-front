@@ -18,29 +18,28 @@ export const count = {
       dispatch.count.addBy(1);
     },
     async removeAsync() {
-        await delay(1000);
-        dispatch.count.remove();
-      }
+      await delay(1000);
+      dispatch.count.remove();
+    }
   })
 };
 export const sidePanel = {
   state: {
     left: false,
-    bottom: false,
+    bottom: false
   },
   reducers: {
-    addBy(state, payload) {
-      return state + payload;
-    },
     toggleDrawers(state, payload) {
-      const {event, side, open} = payload;
-      if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+      const { event, side, open } = payload;
+      if (
+        event.type === "keydown" &&
+        (event.key === "Tab" || event.key === "Shift")
+      ) {
         return;
       }
       console.log(state);
-      
+
       return { ...state, [side]: open };
-      
     }
   },
   effects: dispatch => ({
@@ -49,8 +48,49 @@ export const sidePanel = {
       dispatch.count.addBy(1);
     },
     async removeAsync() {
-        await delay(1000);
-        dispatch.count.remove();
-      }
+      await delay(1000);
+      dispatch.count.remove();
+    }
   })
+};
+export const isAuth = {
+  state: false,
+  reducers: {
+    setAuth(state, payload) {
+      return payload;
+    }
+  },
+  effects: dispatch => ({
+    async addByAsync(payload, state) {
+      await delay(1000);
+      dispatch.count.addBy(1);
+    },
+    async removeAsync() {
+      await delay(1000);
+      dispatch.count.remove();
+    }
+  })
+};
+
+export const modalSignIn = {
+  state: {
+    isOpen: false,
+    message: ""
+  },
+  reducers: {
+    handleClose(state, payload) {
+      return { ...state, isOpen: false };
+    },
+    handleOpen(state, payload) {
+      return { message:payload, isOpen: true };;
+    }
+  }
+};
+export const groups = {
+  state: [],
+  reducers: {
+    setGroups(state, payload) {
+      return payload;
+    }
+  }
 };
