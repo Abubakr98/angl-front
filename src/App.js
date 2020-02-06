@@ -11,6 +11,8 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Link from "@material-ui/core/Link";
+import RemindPassword from "./pages/auth/RemindPassword";
+import RefreshPassword from "./pages/auth/RefreshPassword";
 
 function Copyright() {
   return (
@@ -53,6 +55,12 @@ function App(props) {
         <SidePanel />
         <MenuBar />
         <Switch>
+        <Route path="/remind-password">
+            <RemindPassword />
+          </Route>
+          <Route path="/refresh-password/:token">
+            <RefreshPassword />
+          </Route>
           <Route path="/sign-in">
             <SignIn />
           </Route>

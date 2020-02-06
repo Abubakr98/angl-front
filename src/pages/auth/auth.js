@@ -9,6 +9,14 @@ export const isAuthenticated = () => {
   const jwt = jwt_decode(token);
   return !(jwt.exp <= parseInt(`${Date.now() / 1000}`, 2));
 };
+export const signOut = () => {
+  let token = localStorage.getItem("userData");
+  if (!token) {
+    return false;
+  }
+  localStorage.removeItem("userData");
+  login();
+};
 
 export const getIdToken = () => {
   const token = JSON.parse(localStorage.getItem("userData")).accessToken;

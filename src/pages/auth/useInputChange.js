@@ -7,6 +7,6 @@ export const useInputChange = () => {
     ...input,
     [e.currentTarget.name]: e.currentTarget.value
   })
-
+  
   return [input, handleInputChange]
 }

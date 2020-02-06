@@ -37,8 +37,6 @@ export const sidePanel = {
       ) {
         return;
       }
-      console.log(state);
-
       return { ...state, [side]: open };
     }
   },

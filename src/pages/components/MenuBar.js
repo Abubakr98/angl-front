@@ -15,14 +15,15 @@ import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import { connect } from "react-redux";
+import { signOut } from "../auth/auth";
 
 const useStyles = makeStyles(theme => ({
   grow: {
     flexGrow: 1,
-    width: '100%',
-    position: 'fixed',
+    width: "100%",
+    position: "fixed",
     zIndex: 999,
-    top:0,
+    top: 0
   },
   menuButton: {
     marginRight: theme.spacing(2)
@@ -126,8 +127,8 @@ function PrimarySearchAppBar(props) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Обліковий запис</MenuItem>
+      <MenuItem onClick={() => signOut()}>Вихід</MenuItem>
     </Menu>
   );
 

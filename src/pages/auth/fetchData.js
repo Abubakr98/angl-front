@@ -21,12 +21,12 @@ export const postData = (url = "", method, data = {}) => {
 
 export const getData = (url = "", method) => {
   const token = `Bearer ${getIdToken()}`;
-  console.log(token);
   
   // Значения по умолчанию обозначены знаком *
   return fetch(url, {
     method: method, // *GET, POST, PUT, DELETE, etc.
     mode: "cors", // no-cors, cors, *same-origin
+    credentials: "same-origin", // include, *same-origin, omit
     // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
     headers: {
       "Content-Type": "application/json",

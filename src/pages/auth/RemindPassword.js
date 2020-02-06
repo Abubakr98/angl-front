@@ -3,20 +3,16 @@ import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import LinkUI from "@material-ui/core/Link";
+import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
-import { Redirect, Link } from "react-router-dom";
+
 import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useInputChange } from "./useInputChange";
-import { useRedirect } from "./redirect";
 import { postData } from "./fetchData";
-import { setUserData } from "./auth";
 import Alert from "../components/Alert";
 import URL from "../../urls";
 import { connect } from "react-redux";
@@ -25,9 +21,9 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {"Copyright © "}
-      <LinkUI color="inherit" href="#">
+      <Link color="inherit" href="#">
         Your Website
-      </LinkUI>{" "}
+      </Link>{" "}
       {new Date().getFullYear()}
       {"."}
     </Typography>
@@ -51,30 +47,23 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2)
-  },
-  link:{
-    color: "#303F9F",
-    textDecoration: "none",
-    "&:hover": {
-      textDecoration: "underline"
-    },
   }
 }));
 
 function SignIn(props) {
   const classes = useStyles();
-  const [isRedirect, handleIsRedirect] = useRedirect();
   const [input, handleInputChange] = useInputChange();
 
   const signIn = e => {
-    postData(`${URL.base + URL.api + URL.signIn}`, "POST", input).then(data => {
-      if (!data.accessToken) {
-        props.handleOpen(data.message);
-      } else {
-        setUserData(data);
-        handleIsRedirect();
+    postData(`${URL.base + URL.api + URL.remindPassword}`, "POST", input).then(
+      data => {
+        if (data.status !== "Ok") {
+          props.handleOpen(data.message);
+        } else {
+          props.handleOpen("Інструкція для скидання паролю надіслані на вашу ел-пошту");
+        }
       }
-    });
+    );
     e.preventDefault();
   };
   return (
@@ -85,7 +74,7 @@ function SignIn(props) {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Увійти
+          Скидання паролю
         </Typography>
         <form className={classes.form} onSubmit={signIn}>
           <TextField
@@ -101,22 +90,6 @@ function SignIn(props) {
             autoFocus
             onChange={handleInputChange}
           />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Пароль"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            onChange={handleInputChange}
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Запам'ятати"
-          />
           <Button
             type="submit"
             fullWidth
@@ -124,17 +97,12 @@ function SignIn(props) {
             color="primary"
             className={classes.submit}
           >
-            Вхід
+            Скинути
           </Button>
           <Grid container>
-            <Grid item xs>
-              <Link to="/remind-password" className={classes.link}>
-                Нагадати пароль?
-              </Link>
-            </Grid>
             <Grid item>
-              <Link to="/sign-up" className={classes.link}>
-              Немає облікового запису? Зареєструватися
+              <Link href="#" variant="body2">
+                {"Немає облікового запису? Зареєструватися"}
               </Link>
             </Grid>
           </Grid>
@@ -144,7 +112,6 @@ function SignIn(props) {
         <Copyright />
       </Box>
       <Alert />
-      {isRedirect ? <Redirect to="/" /> : null}
     </Container>
   );
 }
