@@ -1,5 +1,5 @@
 export default {
-  base: process.env.BASE || "http://localhost:3000/",
+  base: process.env.BASE_URL || "http://localhost:3000/",
   localebase: "https://angl-server.herokuapp.com/",
   api: "api/v1.0/",
   refreshPassword: "auth/refresh-password/",
