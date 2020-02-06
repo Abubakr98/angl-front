@@ -67,7 +67,7 @@ function SignIn(props) {
   const [input, handleInputChange] = useInputChange();
 
   const signIn = e => {
-    console.log(process.env.BASE_URL);
+    console.log(process.env.REACT_APP_BASE_URL);
     postData(`${URL.base + URL.api + URL.signIn}`, "POST", input).then(data => {
       if (!data.accessToken) {
         props.handleOpen(data.message);
