@@ -69,7 +69,14 @@ export const isAuth = {
     }
   })
 };
-
+export const userData = {
+  state: null,
+  reducers: {
+    setUserData(state, payload) {
+      return payload;
+    }
+  }
+};
 export const modalSignIn = {
   state: {
     isOpen: false,
@@ -80,7 +87,7 @@ export const modalSignIn = {
       return { ...state, isOpen: false };
     },
     handleOpen(state, payload) {
-      return { message:payload, isOpen: true };;
+      return { message: payload, isOpen: true };
     }
   }
 };

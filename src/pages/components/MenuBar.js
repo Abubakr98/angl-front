@@ -15,7 +15,7 @@ import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import { connect } from "react-redux";
-import { signOut } from "../auth/auth";
+import { signOut, getUserData } from "../auth/auth";
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -71,12 +71,14 @@ const useStyles = makeStyles(theme => ({
   },
   sectionDesktop: {
     display: "none",
+    margin: "auto 0 auto auto",
     [theme.breakpoints.up("md")]: {
       display: "flex"
     }
   },
   sectionMobile: {
     display: "flex",
+    margin: "auto 0 auto auto",
     [theme.breakpoints.up("md")]: {
       display: "none"
     }
@@ -117,6 +119,19 @@ function PrimarySearchAppBar(props) {
   };
 
   const menuId = "primary-search-account-menu";
+  const User = () => {
+    const userData=getUserData();
+    if (userData) {
+      const { firstName, lastName } = userData;
+      return (
+        <MenuItem onClick={handleMenuClose}>
+          {firstName + " " + lastName}
+        </MenuItem>
+      );
+    } else {
+      return null;
+    }
+  };
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -127,6 +142,7 @@ function PrimarySearchAppBar(props) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
+      <User />
       <MenuItem onClick={handleMenuClose}>Обліковий запис</MenuItem>
       <MenuItem onClick={() => signOut()}>Вихід</MenuItem>
     </Menu>
@@ -187,9 +203,9 @@ function PrimarySearchAppBar(props) {
             <MenuIcon />
           </IconButton>
           <Typography className={classes.title} variant="h6" noWrap>
-            Material-UI
+            LernWords
           </Typography>
-          <div className={classes.search}>
+          {/* <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
@@ -201,7 +217,7 @@ function PrimarySearchAppBar(props) {
               }}
               inputProps={{ "aria-label": "search" }}
             />
-          </div>
+          </div> */}
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 4 new mails" color="inherit">
@@ -245,7 +261,8 @@ function PrimarySearchAppBar(props) {
 }
 const mapState = state => {
   return {
-    sidePanel: state.sidePanel
+    sidePanel: state.sidePanel,
+    userData: state.userData
   };
 };
 

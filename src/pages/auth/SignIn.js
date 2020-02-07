@@ -21,19 +21,6 @@ import Alert from "../components/Alert";
 import URL from "../../urls";
 import { connect } from "react-redux";
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {"Copyright © "}
-      <LinkUI color="inherit" href="#">
-        Your Website
-      </LinkUI>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
 const useStyles = makeStyles(theme => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -67,12 +54,12 @@ function SignIn(props) {
   const [input, handleInputChange] = useInputChange();
 
   const signIn = e => {
-    console.log(process.env.REACT_APP_BASE_URL);
     postData(`${URL.base + URL.api + URL.signIn}`, "POST", input).then(data => {
       if (!data.accessToken) {
         props.handleOpen(data.message);
       } else {
         setUserData(data);
+        props.setToStateUserData(data);
         handleIsRedirect();
       }
     });
@@ -142,9 +129,6 @@ function SignIn(props) {
           </Grid>
         </form>
       </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
       <Alert />
       {isRedirect ? <Redirect to="/" /> : null}
     </Container>
@@ -156,8 +140,9 @@ const mapState = state => {
   };
 };
 
-const mapDispatch = ({ modalSignIn: { handleClose, handleOpen } }) => ({
+const mapDispatch = ({ modalSignIn: { handleClose, handleOpen }, userData:{setUserData} }) => ({
   handleClose: () => handleClose(),
-  handleOpen: data => handleOpen(data)
+  handleOpen: (data) => handleOpen(data),
+  setToStateUserData: (data) => setUserData(data),
 });
 export default connect(mapState, mapDispatch)(SignIn);

@@ -51,7 +51,6 @@ function SignUp(props) {
     console.log(input);
     if (input.password === input.password2) {
       postData(`${URL.base + URL.api + URL.signUp}`, "POST", input).then(data => {
-        console.log(data);
       if (!data._id) {
         props.handleOpen(data.message);
       } else {
@@ -71,7 +70,7 @@ function SignUp(props) {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
+          Реєстрація
         </Typography>
         <form className={classes.form} onSubmit={signUp}>
           <Grid container spacing={2}>

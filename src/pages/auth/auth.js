@@ -26,6 +26,10 @@ export const setUserData = idToken => {
   const token = localStorage.setItem("userData", JSON.stringify(idToken));
   return token;
 };
+export const getUserData = () => {
+  const user = JSON.parse(localStorage.getItem("userData"));
+  return user;
+};
 export const login = () => {
   window.location.pathname = "/sign-in";
 };
