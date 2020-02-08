@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Home from "../pages/screens/Home"
 import {isAuthenticated, login} from './auth/auth'
+import {Redirect} from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -14,7 +15,7 @@ export default function StickyFooter() {
 
   return (
     <div className={classes.root}>
-      {!isAuthenticated()?(window.location.pathname = "/sign-in"):( <Home/>)}
+      {!isAuthenticated()?(<Redirect to="/" />):( <Home/>)}
     </div>
   );
 }
