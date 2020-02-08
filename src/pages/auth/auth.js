@@ -7,7 +7,8 @@ export const isAuthenticated = () => {
   }
   token = JSON.parse(localStorage.getItem("userData")).accessToken;
   const jwt = jwt_decode(token);
-  return !(jwt.exp <= parseInt(`${Date.now() / 1000}`, 2));
+
+  return (jwt.exp>Date.now());
 };
 export const signOut = () => {
   let token = localStorage.getItem("userData");
