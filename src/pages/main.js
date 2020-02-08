@@ -11,9 +11,10 @@ const useStyles = makeStyles(theme => ({
 
 export default function StickyFooter() {
   const classes = useStyles();
+
   return (
     <div className={classes.root}>
-      {!isAuthenticated()?(login()):( <Home/>)}
+      {!isAuthenticated()?(window.location.pathname = "/sign-in"):( <Home/>)}
     </div>
   );
 }
