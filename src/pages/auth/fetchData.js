@@ -4,7 +4,7 @@ export const postData = (url = "", method, data = {}) => {
   // Значения по умолчанию обозначены знаком *
   return fetch(url, {
     method: method, // *GET, POST, PUT, DELETE, etc.
-    mode: "cors", // no-cors, cors, *same-origin
+    mode: "no-cors", // no-cors, cors, *same-origin
     cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
     credentials: "same-origin", // include, *same-origin, omit
     headers: {
@@ -25,7 +25,7 @@ export const getData = (url = "", method) => {
   // Значения по умолчанию обозначены знаком *
   return fetch(url, {
     method: method, // *GET, POST, PUT, DELETE, etc.
-    mode: "cors", // no-cors, cors, *same-origin
+    mode: "no-cors", // no-cors, cors, *same-origin
     credentials: "same-origin", // include, *same-origin, omit
     // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
     headers: {
