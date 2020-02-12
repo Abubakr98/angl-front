@@ -112,7 +112,7 @@ function SignUp(props) {
             color="primary"
             className={classes.submit}
           >
-            Створити обліковий запис
+            Оновити пароль
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
