@@ -47,17 +47,21 @@ function SignUp(props) {
   let { token } = useParams();
   const signUp = e => {
     e.preventDefault();
-      postData(
-        `${URL.base + URL.api + URL.emailVerify + token}`,
-        "POST",
-      ).then(data => {
-        if (!data._id) {
-          props.handleOpen(data.message);
-        } else {
-          props.handleOpen("Обліковий запис успішно активовано! Тепер ви можете авторизуватися.");
-          handleIsRedirect();
-        }
-      });
+    postData(
+      `${URL.base + URL.api + URL.emailVerify + token}`,
+      "POST",
+      {},
+      token
+    ).then(data => {
+      if (!data._id) {
+        props.handleOpen(data.message);
+      } else {
+        props.handleOpen(
+          "Обліковий запис успішно активовано! Тепер ви можете авторизуватися."
+        );
+        handleIsRedirect();
+      }
+    });
   };
 
   return (

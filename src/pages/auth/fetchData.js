@@ -1,6 +1,6 @@
 import { getIdToken } from "./auth";
 
-export const postData = (url = "", method, data = {}) => {
+export const postData = (url = "", method, data = {}, token = `Bearer ${getIdToken()}`) => {
   // Значения по умолчанию обозначены знаком *
   return fetch(url, {
     method: method, // *GET, POST, PUT, DELETE, etc.
@@ -8,7 +8,8 @@ export const postData = (url = "", method, data = {}) => {
     cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
     credentials: "same-origin", // include, *same-origin, omit
     headers: {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      Authorization: token
       // 'Content-Type': 'application/x-www-form-urlencoded',
     },
     redirect: "follow", // manual, *follow, error
@@ -21,7 +22,7 @@ export const postData = (url = "", method, data = {}) => {
 
 export const getData = (url = "", method) => {
   const token = `Bearer ${getIdToken()}`;
-  
+
   // Значения по умолчанию обозначены знаком *
   return fetch(url, {
     method: method, // *GET, POST, PUT, DELETE, etc.
@@ -31,9 +32,8 @@ export const getData = (url = "", method) => {
     headers: {
       "Content-Type": "application/json",
       // 'Content-Type': 'application/x-www-form-urlencoded',
-      Authorization: token,
-    },
-    
+      Authorization: token
+    }
   })
     .then(response => response.json())
     .catch(err => err); // парсит JSON ответ в Javascript объект
