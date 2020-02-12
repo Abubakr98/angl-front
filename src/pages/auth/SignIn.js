@@ -53,9 +53,7 @@ function SignIn(props) {
   const [isRedirect, handleIsRedirect] = useRedirect();
   const [input, handleInputChange] = useInputChange();
 
-  const signIn = e => {
-    console.log(input);
-    
+  const signIn = e => {   
     postData(`${URL.base + URL.api + URL.signIn}`, "POST", input).then(data => {
       if (!data.accessToken) {
         props.handleOpen(data.message);

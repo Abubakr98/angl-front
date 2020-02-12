@@ -48,12 +48,12 @@ function SignUp(props) {
   const [input, handleInputChange] = useInputChange();
   const signUp = e => {
     e.preventDefault();
-    console.log(input);
     if (input.password === input.password2) {
       postData(`${URL.base + URL.api + URL.signUp}`, "POST", input).then(data => {
       if (!data._id) {
         props.handleOpen(data.message);
       } else {
+        props.handleOpen("Для того щоб активувати обліковий запис, вам відправленно повідомлення на ел-пошту з інструкціей як це зробити");
         handleIsRedirect();
       }
     });

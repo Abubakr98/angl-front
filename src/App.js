@@ -13,6 +13,7 @@ import Container from "@material-ui/core/Container";
 import Link from "@material-ui/core/Link";
 import RemindPassword from "./pages/auth/RemindPassword";
 import RefreshPassword from "./pages/auth/RefreshPassword";
+import EmailVerify from "./pages/auth/EmailVerify";
 
 function Copyright() {
   return (
@@ -60,6 +61,9 @@ function App(props) {
           </Route>
           <Route path="/refresh-password/:token">
             <RefreshPassword />
+          </Route>
+          <Route path="/email-verify/:token">
+            <EmailVerify />
           </Route>
           <Route path="/sign-in">
             <SignIn />
