@@ -5,18 +5,15 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-import LinkUI from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
-import { Redirect, Link } from "react-router-dom";
-import Box from "@material-ui/core/Box";
+import { Link } from "react-router-dom";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useInputChange } from "./useInputChange";
-import { useRedirect } from "./redirect";
 import { postData } from "./fetchData";
-import { login ,setUserData } from "./auth";
+import { setUserData } from "./auth";
 import Alert from "../components/Alert";
 import URL from "../../urls";
 import { connect } from "react-redux";
@@ -50,7 +47,6 @@ const useStyles = makeStyles(theme => ({
 
 function SignIn(props) {
   const classes = useStyles();
-  const [isRedirect, handleIsRedirect] = useRedirect();
   const [input, handleInputChange] = useInputChange();
 
   const signIn = e => {   
@@ -60,7 +56,6 @@ function SignIn(props) {
       } else {
         setUserData(data);
         props.setToStateUserData(data);
-        handleIsRedirect();
         window.location.pathname = "/";
       }
     });
