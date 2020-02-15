@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.scss";
 import Home from "./pages/main";
+import Tests from "./pages/Tests";
 import SignIn from "./pages/auth/SignIn";
 import SignUp from "./pages/auth/SignUp";
 import MenuBar from "./pages/components/MenuBar";
@@ -14,7 +15,8 @@ import Link from "@material-ui/core/Link";
 import RemindPassword from "./pages/auth/RemindPassword";
 import RefreshPassword from "./pages/auth/RefreshPassword";
 import EmailVerify from "./pages/auth/EmailVerify";
-
+import { isAuthenticated } from "./pages/auth/auth";
+import { Redirect } from "react-router-dom";
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary">
@@ -71,8 +73,11 @@ function App(props) {
           <Route path="/sign-up">
             <SignUp />
           </Route>
+          <Route path="/tests">
+          {isAuthenticated() ? <Tests /> : <Redirect to="/sign-in" />}
+          </Route>
           <Route path="/">
-            <Home />
+          {isAuthenticated() ? <Home/> : <Redirect to="/sign-in" />}
           </Route>
         </Switch>
         <footer className={classes.footer}>

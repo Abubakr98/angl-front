@@ -16,7 +16,7 @@ import Container from "@material-ui/core/Container";
 import { useInputChange } from "./useInputChange";
 import { useRedirect } from "./redirect";
 import { postData } from "./fetchData";
-import { setUserData } from "./auth";
+import { login ,setUserData } from "./auth";
 import Alert from "../components/Alert";
 import URL from "../../urls";
 import { connect } from "react-redux";
@@ -61,6 +61,7 @@ function SignIn(props) {
         setUserData(data);
         props.setToStateUserData(data);
         handleIsRedirect();
+        window.location.pathname = "/";
       }
     });
     e.preventDefault();
@@ -130,7 +131,7 @@ function SignIn(props) {
         </form>
       </div>
       <Alert />
-      {isRedirect ? <Redirect to="/" /> : null}
+      {/* {isRedirect ? <Redirect to="/" /> : null} */}
     </Container>
   );
 }

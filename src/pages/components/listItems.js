@@ -37,6 +37,14 @@ export const mainListItems = (
       <ListItemText primary="Реєстрація" />
     </ListItem>
     </Link>
+    <Link to="/tests">
+    <ListItem button>
+      <ListItemIcon>
+        <PeopleIcon />
+      </ListItemIcon>
+      <ListItemText primary="Тести" />
+    </ListItem>
+    </Link>
   </div>
 );
 
