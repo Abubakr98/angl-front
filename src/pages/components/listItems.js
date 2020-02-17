@@ -1,73 +1,57 @@
-import React from 'react';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import PeopleIcon from '@material-ui/icons/People';
-import AssignmentIcon from '@material-ui/icons/Assignment';
-import {Link} from 'react-router-dom';
+import React from "react";
+import styled from "styled-components";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import PeopleIcon from "@material-ui/icons/People";
+import { Link } from "react-router-dom";
 
+const MainColor = "#303F9F";
+
+const MyLink = styled(Link)`
+  color: #000;
+  &:hover {
+    color: ${MainColor};
+    .listItems__icon {
+      color: ${MainColor};
+    }
+  }
+`;
 export const mainListItems = (
   <div>
-    <Link to="/">
-    <ListItem button>
-    
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="Головна" />
-     
-    </ListItem>
-    </Link>
-    <Link to="/sign-in">
-    <ListItem button>
-      <ListItemIcon>
-        <ShoppingCartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Вхід" />
-    </ListItem>
-    </Link>
-    <Link to="/sign-up">
-    <ListItem button>
-      <ListItemIcon>
-        <PeopleIcon />
-      </ListItemIcon>
-      <ListItemText primary="Реєстрація" />
-    </ListItem>
-    </Link>
-    <Link to="/tests">
-    <ListItem button>
-      <ListItemIcon>
-        <PeopleIcon />
-      </ListItemIcon>
-      <ListItemText primary="Тести" />
-    </ListItem>
-    </Link>
-  </div>
-);
-
-export const secondaryListItems = (
-  <div>
-    <ListSubheader inset>Saved reports</ListSubheader>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Current month" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Last quarter" />
-    </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Year-end sale" />
-    </ListItem>
+    <MyLink to="/">
+      <ListItem button>
+        <ListItemIcon>
+          <DashboardIcon className="listItems__icon" />
+        </ListItemIcon>
+        <ListItemText primary="Головна" />
+      </ListItem>
+    </MyLink>
+    <MyLink to="/sign-in">
+      <ListItem button>
+        <ListItemIcon>
+          <ShoppingCartIcon className="listItems__icon" />
+        </ListItemIcon>
+        <ListItemText primary="Вхід" />
+      </ListItem>
+    </MyLink>
+    <MyLink to="/sign-up">
+      <ListItem button>
+        <ListItemIcon>
+          <PeopleIcon className="listItems__icon" />
+        </ListItemIcon>
+        <ListItemText primary="Реєстрація" />
+      </ListItem>
+    </MyLink>
+    <MyLink to="/tests">
+      <ListItem button>
+        <ListItemIcon>
+          <PeopleIcon className="listItems__icon" />
+        </ListItemIcon>
+        <ListItemText primary="Тести" />
+      </ListItem>
+    </MyLink>
   </div>
 );

@@ -34,7 +34,9 @@ const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
     flexDirection: "column",
-    minHeight: "calc(100vh)"
+    minHeight: "calc(100vh)",
+    paddingTop: "64px"
+
   },
   main: {
     marginTop: theme.spacing(8),
@@ -54,9 +56,9 @@ function App(props) {
   const classes = useStyles();
   return (
     <Router>
+      <MenuBar />
       <div className={classes.root}>
         <SidePanel />
-        <MenuBar />
         <Switch>
         <Route path="/remind-password">
             <RemindPassword />

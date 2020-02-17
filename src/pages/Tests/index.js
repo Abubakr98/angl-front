@@ -7,13 +7,19 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Alert from "../components/Alert";
 import { connect } from "react-redux";
+import Grid from "@material-ui/core/Grid";
+import styled from "styled-components";
 
+const Test = styled.div`
+  /* background-color: red; */
+  margin: auto 0 0 0;
+`;
 const useStyles = makeStyles(theme => ({
   paper: {
-    marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
-    alignItems: "center"
+    alignItems: "center",
+    backgroundColor: "green"
   },
   avatar: {
     margin: theme.spacing(1),
@@ -26,33 +32,36 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2)
   },
-  link:{
+  link: {
     color: "#303F9F",
     textDecoration: "none",
     "&:hover": {
       textDecoration: "underline"
-    },
+    }
   }
 }));
 
 function SignIn(props) {
   const classes = useStyles();
- 
+
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        
-        <Typography component="h1" variant="h5">
-          Оберить правільний варіант
-        </Typography>
-        
-      </div>
-      <Alert />
-    </Container>
+    <Test>
+      <Container className={classes.con} component="main" maxWidth="xs">
+        <Grid container direction="row" justify="center" alignItems="center">
+          <CssBaseline />
+          <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <LockOutlinedIcon />
+            </Avatar>
+
+            <Typography component="h1" variant="h5">
+              Оберить правільний варіант
+            </Typography>
+          </div>
+          <Alert />
+        </Grid>
+      </Container>
+    </Test>
   );
 }
 const mapState = state => {
@@ -61,9 +70,12 @@ const mapState = state => {
   };
 };
 
-const mapDispatch = ({ modalSignIn: { handleClose, handleOpen }, userData:{setUserData} }) => ({
+const mapDispatch = ({
+  modalSignIn: { handleClose, handleOpen },
+  userData: { setUserData }
+}) => ({
   handleClose: () => handleClose(),
-  handleOpen: (data) => handleOpen(data),
-  setToStateUserData: (data) => setUserData(data),
+  handleOpen: data => handleOpen(data),
+  setToStateUserData: data => setUserData(data)
 });
 export default connect(mapState, mapDispatch)(SignIn);
