@@ -99,3 +99,11 @@ export const groups = {
     }
   }
 };
+export const learningWords = {
+  state: [],
+  reducers: {
+    setLearningWords(state, payload) {
+      return payload;
+    }
+  }
+};

@@ -17,6 +17,9 @@ import RefreshPassword from "./pages/auth/RefreshPassword";
 import EmailVerify from "./pages/auth/EmailVerify";
 import { isAuthenticated } from "./pages/auth/auth";
 import { Redirect } from "react-router-dom";
+import Alert from "./pages/components/Alert";
+import { getUserData } from "./pages/auth/auth";
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary">
@@ -29,14 +32,12 @@ function Copyright() {
     </Typography>
   );
 }
-
 const useStyles = makeStyles(theme => ({
   root: {
     display: "flex",
     flexDirection: "column",
     minHeight: "calc(100vh)",
     paddingTop: "64px"
-
   },
   main: {
     marginTop: theme.spacing(8),
@@ -54,13 +55,15 @@ const useStyles = makeStyles(theme => ({
 
 function App(props) {
   const classes = useStyles();
+  props.setUserData(getUserData());
   return (
     <Router>
       <MenuBar />
       <div className={classes.root}>
+      <Alert />
         <SidePanel />
         <Switch>
-        <Route path="/remind-password">
+          <Route path="/remind-password">
             <RemindPassword />
           </Route>
           <Route path="/refresh-password/:token">
@@ -69,17 +72,17 @@ function App(props) {
           <Route path="/email-verify/:token">
             <EmailVerify />
           </Route>
-          <Route path="/sign-in">
+          <Route path="/sign-in" >
             <SignIn />
           </Route>
           <Route path="/sign-up">
             <SignUp />
           </Route>
-          <Route path="/tests">
-          {isAuthenticated() ? <Tests /> : <Redirect to="/sign-in" />}
+          <Route path="/tests/:group">
+            {isAuthenticated() ? <Tests /> : <Redirect to="/sign-in" />}
           </Route>
           <Route path="/">
-          {isAuthenticated() ? <Home/> : <Redirect to="/sign-in" />}
+            {isAuthenticated() ? <Home /> : <Redirect to="/sign-in" />}
           </Route>
         </Switch>
         <footer className={classes.footer}>
@@ -101,11 +104,13 @@ const mapState = state => {
 };
 
 const mapDispatch = ({
-  count: { addBy, addByAsync, remove, removeAsync }
+  count: { addBy, addByAsync, remove, removeAsync },
+  userData: { setUserData }
 }) => ({
   addByOne: () => addBy(1),
   addByOneAsync: () => addByAsync(1),
   removeOne: () => remove(),
-  removeOneAsync: () => removeAsync()
+  removeOneAsync: () => removeAsync(),
+  setUserData: data => setUserData(data)
 });
 export default connect(mapState, mapDispatch)(App);

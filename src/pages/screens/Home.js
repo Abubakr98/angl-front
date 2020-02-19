@@ -12,6 +12,7 @@ import { getData } from "../auth/fetchData";
 import URL from "../../urls";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   icon: {
@@ -43,13 +44,13 @@ const useStyles = makeStyles(theme => ({
 const cards = [1, 2, 3];
 function Home(props) {
   const classes = useStyles();
-
+  
   useEffect(() => {
     getData(`${URL.base + URL.api + URL.groups}`, "GET").then(data => {
       props.setGroups(data);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, []);// []
   return (
     <React.Fragment>
       {/* <CssBaseline /> */}
@@ -111,9 +112,11 @@ function Home(props) {
                         <Typography>{gr.des}</Typography>
                       </CardContent>
                       <CardActions>
+                        <Link to={`/tests/${gr._id}`}>
                         <Button size="small" color="primary">
                           Вивчати
                         </Button>
+                        </Link>
                         <Button size="small" color="primary">
                           Додати
                         </Button>

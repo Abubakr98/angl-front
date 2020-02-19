@@ -7,5 +7,7 @@ export default {
   remindPassword: "auth/token-refresh-password",
   signIn: "auth/signin",
   signUp: "auth/registration",
+  users:"users/",
+  study:"study/",
   groups: "groups"
 };
