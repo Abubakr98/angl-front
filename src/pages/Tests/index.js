@@ -74,6 +74,8 @@ function SignIn(props) {
   const [questions, setQ] = useState([]);
   const [answers, setA] = useState([]);
   const [disabled, setD] = useState(false);
+  console.log(props.userData);
+  
   const path = `${URL.base +
     URL.api +
     URL.users +
