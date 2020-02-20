@@ -105,6 +105,7 @@ function Home(props) {
                         image="https://source.unsplash.com/random"
                         title="Image title"
                       />
+                      {console.log(gr)}
                       <CardContent className={classes.cardContent}>
                         <Typography gutterBottom variant="h5" component="h2">
                           {gr.name}

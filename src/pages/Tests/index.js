@@ -7,13 +7,13 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { connect } from "react-redux";
 import Grid from "@material-ui/core/Grid";
-import { getData } from "../auth/fetchData";
+import { getData, postData } from "../auth/fetchData";
 import URL from "../../urls";
 import Button from "@material-ui/core/Button";
 import { useParams, Redirect } from "react-router-dom";
 import { useRedirect } from "../auth/redirect";
 import styled from "styled-components";
-import CircularProgress from '@material-ui/core/CircularProgress';
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const Test = styled.div`
   /* background-color: red; */
@@ -23,18 +23,18 @@ const Btn = styled(Button)`
   /* background-color: red; */
   width: 100%;
   margin-bottom: 10px;
-  &:active{
-    background-color:red;
-    color:#fff;
+  &:active {
+    background-color: red;
+    color: #fff;
   }
 `;
 const BtnR = styled(Button)`
   /* background-color: red; */
   width: 100%;
   margin-bottom: 10px;
-  &:active{
-    background-color:green;
-    color:#fff;
+  &:active {
+    background-color: green;
+    color: #fff;
   }
 `;
 const useStyles = makeStyles(theme => ({
@@ -74,8 +74,7 @@ function SignIn(props) {
   const [questions, setQ] = useState([]);
   const [answers, setA] = useState([]);
   const [disabled, setD] = useState(false);
-  console.log(props.userData);
-  
+
   const path = `${URL.base +
     URL.api +
     URL.users +
@@ -93,9 +92,20 @@ function SignIn(props) {
   }, []);
   // #F50057
   const setQHendler = (el, index) => {
+    const userLerned = `${URL.base +
+      URL.api +
+      URL.users +
+      props.userData.id +
+      "/" +
+      URL.study}`;
     if (questions.length !== 1) {
       setD(true);
       if (questions[0].en === el.en) {
+        postData(userLerned, "POST", { id: el.id }).then(data => {
+          console.log(data);
+        });
+        setQ(questions.splice(1, questions.length));
+      }else{
         setQ(questions.splice(1, questions.length));
       }
       setTimeout(() => {
@@ -103,6 +113,11 @@ function SignIn(props) {
         setD(false);
       }, 500);
     } else {
+      if (questions[0].en === el.en) {
+        postData(userLerned, "POST", { id: el.id }).then(data => {
+          console.log(data);
+        });
+      }
       props.handleOpen("Так тримати, ви вже вивчили 5 слів!");
       setTimeout(() => {
         handleIsRedirect();
@@ -122,12 +137,15 @@ function SignIn(props) {
               Оберить правільний варіант
             </Typography>
             <Typography component="h2" variant="h4">
-              {questions.length !== 0 ? questions[0].en : (<CircularProgress color="secondary" />)}
+              {questions.length !== 0 ? (
+                questions[0].en
+              ) : (
+                <CircularProgress color="secondary" />
+              )}
             </Typography>
             {answers.map((el, i) => {
-              return (
-                el.en === questions[0].en?(
-                  <BtnR
+              return el.en === questions[0].en ? (
+                <BtnR
                   size="large"
                   onClick={() => setQHendler(el, i)}
                   variant="outlined"
@@ -137,8 +155,8 @@ function SignIn(props) {
                 >
                   {el.ua}
                 </BtnR>
-                ):(
-                  <Btn
+              ) : (
+                <Btn
                   size="large"
                   onClick={() => setQHendler(el, i)}
                   variant="outlined"
@@ -148,7 +166,6 @@ function SignIn(props) {
                 >
                   {el.ua}
                 </Btn>
-                )
               );
             })}
           </div>
