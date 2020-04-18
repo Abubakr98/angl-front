@@ -89,7 +89,7 @@ function SignIn(props) {
       setA([...data]);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [path]);// []
   // #F50057
   const setQHendler = (el, index) => {
     const userLerned = `${URL.base +
@@ -105,7 +105,7 @@ function SignIn(props) {
           console.log(data);
         });
         setQ(questions.splice(1, questions.length));
-      }else{
+      } else {
         setQ(questions.splice(1, questions.length));
       }
       setTimeout(() => {
@@ -147,6 +147,7 @@ function SignIn(props) {
               return el.en === questions[0].en ? (
                 <BtnR
                   size="large"
+                  // onMouseDown={() => setQHendler(el, i)}
                   onClick={() => setQHendler(el, i)}
                   variant="outlined"
                   color="primary"
@@ -158,6 +159,7 @@ function SignIn(props) {
               ) : (
                 <Btn
                   size="large"
+                  // onMouseDown={() => setQHendler(el, i)}
                   onClick={() => setQHendler(el, i)}
                   variant="outlined"
                   color="primary"

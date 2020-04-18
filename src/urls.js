@@ -9,5 +9,6 @@ export default {
   signUp: "auth/registration",
   users:"users/",
   study:"study/",
-  groups: "groups"
+  groups: "groups",
+  words: "words"
 };

@@ -45,13 +45,21 @@ export const mainListItems = (
         <ListItemText primary="Реєстрація" />
       </ListItem>
     </MyLink>
-    {/* <MyLink to="/tests">
+    <MyLink to="/admin-panel/words">
       <ListItem button>
         <ListItemIcon>
-          <PeopleIcon className="listItems__icon" />
+          <ShoppingCartIcon className="listItems__icon" />
         </ListItemIcon>
-        <ListItemText primary="Тести" />
+        <ListItemText primary="Слова" />
       </ListItem>
-    </MyLink> */}
+    </MyLink>
+    <MyLink to="/admin-panel/groups">
+      <ListItem button>
+        <ListItemIcon>
+          <ShoppingCartIcon className="listItems__icon" />
+        </ListItemIcon>
+        <ListItemText primary="Групи" />
+      </ListItem>
+    </MyLink>
   </div>
 );

@@ -15,37 +15,37 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import { connect } from "react-redux";
 import { signOut, getUserData } from "../auth/auth";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
     width: "100%",
     position: "fixed",
     zIndex: 999,
-    top: 0
+    top: 0,
   },
   menuButton: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
   },
   title: {
     display: "none",
     [theme.breakpoints.up("sm")]: {
-      display: "block"
-    }
+      display: "block",
+    },
   },
   search: {
     position: "relative",
     borderRadius: theme.shape.borderRadius,
     backgroundColor: fade(theme.palette.common.white, 0.15),
     "&:hover": {
-      backgroundColor: fade(theme.palette.common.white, 0.25)
+      backgroundColor: fade(theme.palette.common.white, 0.25),
     },
     marginRight: theme.spacing(2),
     marginLeft: 0,
     width: "100%",
     [theme.breakpoints.up("sm")]: {
       marginLeft: theme.spacing(3),
-      width: "auto"
-    }
+      width: "auto",
+    },
   },
   searchIcon: {
     width: theme.spacing(7),
@@ -54,33 +54,33 @@ const useStyles = makeStyles(theme => ({
     pointerEvents: "none",
     display: "flex",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   inputRoot: {
-    color: "inherit"
+    color: "inherit",
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 7),
     transition: theme.transitions.create("width"),
     width: "100%",
     [theme.breakpoints.up("md")]: {
-      width: 200
-    }
+      width: 200,
+    },
   },
   sectionDesktop: {
     display: "none",
     margin: "auto 0 auto auto",
     [theme.breakpoints.up("md")]: {
-      display: "flex"
-    }
+      display: "flex",
+    },
   },
   sectionMobile: {
     display: "flex",
     margin: "auto 0 auto auto",
     [theme.breakpoints.up("md")]: {
-      display: "none"
-    }
-  }
+      display: "none",
+    },
+  },
 }));
 
 function PrimarySearchAppBar(props) {
@@ -90,7 +90,7 @@ function PrimarySearchAppBar(props) {
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-  const toggleDrawer = (side, open) => event => {
+  const toggleDrawer = (side, open) => (event) => {
     if (
       event.type === "keydown" &&
       (event.key === "Tab" || event.key === "Shift")
@@ -99,7 +99,7 @@ function PrimarySearchAppBar(props) {
     }
     props.toggleDrawerse({ event, side, open });
   };
-  const handleProfileMenuOpen = event => {
+  const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -112,24 +112,12 @@ function PrimarySearchAppBar(props) {
     handleMobileMenuClose();
   };
 
-  const handleMobileMenuOpen = event => {
+  const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
   const menuId = "primary-search-account-menu";
-  const User = () => {
-    const userData=getUserData();
-    if (userData) {
-      const { firstName, lastName } = userData;
-      return (
-        <MenuItem onClick={handleMenuClose}>
-          {firstName + " " + lastName}
-        </MenuItem>
-      );
-    } else {
-      return null;
-    }
-  };
+  const userData = getUserData();
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -140,7 +128,11 @@ function PrimarySearchAppBar(props) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <User />
+      {userData ? (
+        <MenuItem onClick={handleMenuClose}>
+          {userData.firstName + " " + userData.lastName}
+        </MenuItem>
+      ) : null}
       <MenuItem onClick={handleMenuClose}>Обліковий запис</MenuItem>
       <MenuItem onClick={() => signOut()}>Вихід</MenuItem>
     </Menu>
@@ -218,16 +210,6 @@ function PrimarySearchAppBar(props) {
           </div> */}
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton aria-label="show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
             <IconButton
               edge="end"
               aria-label="account of current user"
@@ -257,16 +239,16 @@ function PrimarySearchAppBar(props) {
     </div>
   );
 }
-const mapState = state => {
+const mapState = (state) => {
   return {
     sidePanel: state.sidePanel,
-    userData: state.userData
+    userData: state.userData,
   };
 };
 
 const mapDispatch = ({ sidePanel: { toggleDrawers } }) => ({
-  toggleDrawerse: data => {
+  toggleDrawerse: (data) => {
     toggleDrawers(data);
-  }
+  },
 });
 export default connect(mapState, mapDispatch)(PrimarySearchAppBar);

@@ -6,7 +6,7 @@ import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    backgroundColor: "#f7f7f7"
+    // backgroundColor: "#f7f7f7"
   }
 }));
 

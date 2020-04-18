@@ -107,3 +107,44 @@ export const learningWords = {
     }
   }
 };
+export const selectedWords = {
+  state: [],
+  reducers: {
+    setselectedWords(state, payload) {
+      return payload;
+    }
+  }
+};
+export const selectedWord = {
+  state: null,
+  reducers: {
+    setselectedWord(state, payload) {
+      return payload;
+    }
+  }
+};
+
+// export const groups = {
+//   state: [],
+//   reducers: {
+//     setLearningWords(state, payload) {
+//       return payload;
+//     }
+//   }
+// };
+export const selectedGroups = {
+  state: [],
+  reducers: {
+    setSelectedGroups(state, payload) {
+      return payload;
+    }
+  }
+};
+export const selectedGroup = {
+  state: null,
+  reducers: {
+    setSelectedGroup(state, payload) {
+      return payload;
+    }
+  }
+};

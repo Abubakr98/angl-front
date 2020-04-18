@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.scss";
 import Home from "./pages/main";
+import AdminWords from "./pages/adminPanel/words/words";
+import AdminGroups from "./pages/adminPanel/groups";
 import Tests from "./pages/Tests";
 import SignIn from "./pages/auth/SignIn";
 import SignUp from "./pages/auth/SignUp";
@@ -80,6 +82,12 @@ function App(props) {
           </Route>
           <Route path="/tests/:group">
             {isAuthenticated() ? <Tests /> : <Redirect to="/sign-in" />}
+          </Route>
+          <Route path="/admin-panel/words">
+            {isAuthenticated() ? <AdminWords /> : <Redirect to="/sign-in" />}
+          </Route>
+          <Route path="/admin-panel/groups">
+            {isAuthenticated() ? <AdminGroups /> : <Redirect to="/sign-in" />}
           </Route>
           <Route path="/">
             {isAuthenticated() ? <Home /> : <Redirect to="/sign-in" />}
