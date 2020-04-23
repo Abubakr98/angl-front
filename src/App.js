@@ -62,6 +62,8 @@ const useStyles = makeStyles((theme) => ({
 function App(props) {
   const classes = useStyles();
   props.setUserData(getUserData());
+  console.log(process.env.PUBLIC_URL, "app");
+  
   return (
     <Router>
        <Suspense fallback={<div>Loading...</div>}>
