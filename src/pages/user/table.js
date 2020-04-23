@@ -21,19 +21,14 @@ import Switch from "@material-ui/core/Switch";
 import DeleteIcon from "@material-ui/icons/Delete";
 import FilterListIcon from "@material-ui/icons/FilterList";
 import { connect } from "react-redux";
-import { deleteData } from "../../auth/fetchData";
-import URL from "../../../urls";
+import { deleteData } from "../auth/fetchData";
+import URL from "../../urls";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useTheme } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/icons/Create";
-import EditWord from "./word";
-import CreateWord from "./createWord";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -250,13 +245,6 @@ function EnhancedTable(props) {
     setDialog(true);
   };
 
-  const handleCloseDialog = () => {
-    setDialog(false);
-  };
-  
-  const handleCloseDialogC = () => {
-    setDialogC(false);
-  };
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -265,9 +253,9 @@ function EnhancedTable(props) {
   };
 
   let rows = [{ number: "Cupcake", en: 305, ua: 23, des: 312, group: 235 }];
-  if (props.learningWords.length !== 0) {
+  if (props.userWords.length !== 0) {
     rows = [];
-    props.learningWords.map((el) => {
+    props.userWords.map((el) => {
       const { id, en, ua, des, group } = el;
       rows.push({ number: id, en, ua, des, group });
     });
@@ -306,8 +294,14 @@ function EnhancedTable(props) {
         selected.slice(selectedIndex + 1)
       );
     }
-    props.setSelectedWords(newSelected);
-    setSelected(newSelected);
+    const selectedGroup = newSelected[newSelected.length - 1];
+    if (selectedIndex === 0) {
+      props.setSelectedWords([]);
+      setSelected([]);
+    } else {
+      props.setSelectedWords([selectedGroup]);
+      setSelected([selectedGroup]);
+    }
   };
 
   const handleChangePage = (event, newPage) => {
@@ -338,25 +332,27 @@ function EnhancedTable(props) {
     return arr;
   };
   const hendleDelete = () => {
-    const wordsUrl = `${URL.base + URL.api + URL.words}`;
-    const lw = props.learningWords;
-    deleteData(wordsUrl, "DELETE", { ids: props.selectedWords }).then(
-      (data) => {
-        console.log(data);
-        props.setLearningWords(remove(lw, props.selectedWords));
-        setSelected([]);
-        props.setSelectedWords([]);
-        setOpen({ open: true });
-      }
-    );
+    const user = props.userData;
+    const path = `${URL.base + URL.api + URL.users + user.id}/${URL.words}`;
+    const lw = props.userWords;
+    const body = {
+      _id: props.userWords.find((el) => {
+        if (el.id === props.selectedWords[0]) {
+          return el;
+        }
+      })._id,
+    };
+    deleteData(path, "DELETE", { _id: body }).then((data) => {
+      console.log(data);
+      props.setUserWords(remove(lw, props.selectedWords));
+      setSelected([]);
+      props.setSelectedWords([]);
+      setOpen({ open: true });
+    });
   };
-  const setEditableWords=(wordId)=>{
-    props.setselectedWord(wordId);
-    setDialogC(true); 
-  }
- const Of = ({ from, to, count }) =>{
-    return `${from}-${to === -1 ? count : to} з ${count !== -1 ? count : to}`
-  }
+  const Of = ({ from, to, count }) => {
+    return `${from}-${to === -1 ? count : to} з ${count !== -1 ? count : to}`;
+  };
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -397,7 +393,7 @@ function EnhancedTable(props) {
                     >
                       <TableCell padding="checkbox">
                         <Checkbox
-                        onClick={(event) => handleClick(event, row.number)}
+                          onClick={(event) => handleClick(event, row.number)}
                           checked={isItemSelected}
                           inputProps={{ "aria-labelledby": labelId }}
                         />
@@ -414,16 +410,6 @@ function EnhancedTable(props) {
                       <TableCell align="right">{row.ua}</TableCell>
                       <TableCell align="right">{row.des}</TableCell>
                       <TableCell align="right">{row.group}</TableCell>
-                      <TableCell align="right">
-                        <IconButton
-                          color="primary"
-                          aria-label="upload picture"
-                          component="span"
-                          onClick={()=>setEditableWords(row.number)}
-                        >
-                          <Icon />
-                        </IconButton>
-                      </TableCell>
                     </TableRow>
                   );
                 })}
@@ -435,7 +421,7 @@ function EnhancedTable(props) {
             </TableBody>
           </Table>
         </TableContainer>
-        
+
         <TablePagination
           rowsPerPageOptions={[5, 10, 20]}
           component="div"
@@ -459,57 +445,14 @@ function EnhancedTable(props) {
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="Щільний показ"
       />
-       <Dialog
-        fullScreen={fullScreen}
-        open={dialogC}
-        onClose={handleCloseDialogC}
-        aria-labelledby="responsive-dialog-title"
-      >
-        {/* <DialogTitle id="responsive-dialog-title">
-          {"Use Google's location service?"}
-        </DialogTitle> */}
-        <DialogContent>
-        <EditWord />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialogC} color="primary" autoFocus>
-            закрити
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <Button
-        variant="contained"
-        color="primary"
-        className={classes.button}
-        onClick={handleOpenDialog}
-        endIcon={<Icon>Створити</Icon>}
-      >
-        Створити
-      </Button>
-      <Dialog
-        fullScreen={fullScreen}
-        open={dialog}
-        onClose={handleCloseDialog}
-        aria-labelledby="responsive-dialog-title"
-      >
-        <DialogContent>
-         <CreateWord/>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog} color="primary" autoFocus>
-            закрити
-          </Button>
-        </DialogActions>
-      </Dialog>
     </div>
   );
 }
 const mapState = (state) => {
   return {
     userData: state.userData,
-    learningWords: state.learningWords,
+    userWords: state.userWords,
     selectedWords: state.selectedWords,
-    modalSignIn: state.modalSignIn,
   };
 };
 
@@ -517,9 +460,11 @@ const mapDispatch = ({
   learningWords: { setLearningWords },
   selectedWords: { setSelectedWords },
   selectedWord: { setselectedWord },
+  userWords: { setUserWords },
 }) => ({
   setLearningWords: (data) => setLearningWords(data),
   setSelectedWords: (data) => setSelectedWords(data),
   setselectedWord: (data) => setselectedWord(data),
+  setUserWords: (data) => setUserWords(data),
 });
 export default connect(mapState, mapDispatch)(EnhancedTable);

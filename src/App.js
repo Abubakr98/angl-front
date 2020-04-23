@@ -2,24 +2,28 @@ import React from "react";
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.scss";
-import Home from "./pages/main";
-import AdminWords from "./pages/adminPanel/words/words";
-import AdminGroups from "./pages/adminPanel/groups";
-import Tests from "./pages/Tests";
-import SignIn from "./pages/auth/SignIn";
-import SignUp from "./pages/auth/SignUp";
-import MenuBar from "./pages/components/MenuBar";
-import SidePanel from "./pages/components/SidePanel";
+
+
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Link from "@material-ui/core/Link";
+
+import { Redirect } from "react-router-dom";
+import MenuBar from "./pages/components/MenuBar";
+import SidePanel from "./pages/components/SidePanel";
+import Alert from "./pages/components/Alert";
 import RemindPassword from "./pages/auth/RemindPassword";
 import RefreshPassword from "./pages/auth/RefreshPassword";
 import EmailVerify from "./pages/auth/EmailVerify";
 import { isAuthenticated } from "./pages/auth/auth";
-import { Redirect } from "react-router-dom";
-import Alert from "./pages/components/Alert";
+import Home from "./pages/main";
+import AdminWords from "./pages/adminPanel/words/words";
+import AdminGroups from "./pages/adminPanel/groups";
+import User from "./pages/user";
+import Tests from "./pages/Tests";
+import SignIn from "./pages/auth/SignIn";
+import SignUp from "./pages/auth/SignUp";
 import { getUserData } from "./pages/auth/auth";
 
 function Copyright() {
@@ -88,6 +92,9 @@ function App(props) {
           </Route>
           <Route path="/admin-panel/groups">
             {isAuthenticated() ? <AdminGroups /> : <Redirect to="/sign-in" />}
+          </Route>
+          <Route path="/user">
+            {isAuthenticated() ? <User /> : <Redirect to="/sign-in" />}
           </Route>
           <Route path="/">
             {isAuthenticated() ? <Home /> : <Redirect to="/sign-in" />}

@@ -54,6 +54,8 @@ function SignIn(props) {
       if (!data.accessToken) {
         props.handleOpen(data.message);
       } else {
+        console.log(data);
+        
         setUserData(data);
         props.setToStateUserData(data);
         window.location.pathname = "/";

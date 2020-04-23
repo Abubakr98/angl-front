@@ -6,6 +6,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
+import styled from "styled-components";
 import Menu from "@material-ui/core/Menu";
 import MenuIcon from "@material-ui/icons/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
@@ -14,7 +15,20 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import { connect } from "react-redux";
 import { signOut, getUserData } from "../auth/auth";
+import { Link } from "react-router-dom";
 
+
+const MainColor = "#303F9F";
+
+const MyLink = styled(Link)`
+  color: #000;
+  &:hover {
+    color: ${MainColor};
+    .listItems__icon {
+      color: ${MainColor};
+    }
+  }
+`;
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
@@ -133,7 +147,7 @@ function PrimarySearchAppBar(props) {
           {userData.firstName + " " + userData.lastName}
         </MenuItem>
       ) : null}
-      <MenuItem onClick={handleMenuClose}>Обліковий запис</MenuItem>
+      <MenuItem onClick={handleMenuClose}><MyLink to="/user">Обліковий запис</MyLink></MenuItem>
       <MenuItem onClick={() => signOut()}>Вихід</MenuItem>
     </Menu>
   );

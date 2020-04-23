@@ -23,9 +23,9 @@ export const getIdToken = () => {
   const token = JSON.parse(localStorage.getItem("userData")).accessToken;
   return token;
 };
-export const setUserData = idToken => {
-  const token = localStorage.setItem("userData", JSON.stringify(idToken));
-  return token;
+export const setUserData = userData => {
+  localStorage.removeItem("userData");
+   localStorage.setItem("userData", JSON.stringify(userData));
 };
 export const getUserData = () => {
   const user = JSON.parse(localStorage.getItem("userData"));

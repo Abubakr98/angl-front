@@ -110,7 +110,7 @@ export const learningWords = {
 export const selectedWords = {
   state: [],
   reducers: {
-    setselectedWords(state, payload) {
+    setSelectedWords(state, payload) {
       return payload;
     }
   }
@@ -144,6 +144,15 @@ export const selectedGroup = {
   state: null,
   reducers: {
     setSelectedGroup(state, payload) {
+      return payload;
+    }
+  }
+};
+
+export const userWords = {
+  state: [],
+  reducers: {
+    setUserWords(state, payload) {
       return payload;
     }
   }
