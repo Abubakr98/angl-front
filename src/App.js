@@ -99,7 +99,8 @@ function App(props) {
             {isAuthenticated() ? <User /> : <Redirect to="/sign-in" />}
           </Route>
           <Route path="/">
-            {isAuthenticated() ? <Home /> : <Redirect to="/sign-in" />}
+            {/* {isAuthenticated() ? <Home /> : <Redirect to="/sign-in" />} */}
+            <Home />
           </Route>
         </Switch>
         <footer className={classes.footer}>

@@ -8,7 +8,7 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { getData } from "../auth/fetchData";
+import { getDataClear } from "../auth/fetchData";
 import URL from "../../urls";
 import Skeleton from "@material-ui/lab/Skeleton";
 import { connect } from "react-redux";
@@ -46,7 +46,7 @@ function Home(props) {
   const classes = useStyles();
   
   useEffect(() => {
-    getData(`${URL.base + URL.api + URL.groups}`, "GET").then(data => {
+    getDataClear(`${URL.base + URL.api + URL.groups}`, "GET").then(data => {
       props.setGroups(data);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -69,7 +69,6 @@ function Home(props) {
                         image="https://source.unsplash.com/random"
                         title="Image title"
                       />
-                      {console.log(gr)}
                       <CardContent className={classes.cardContent}>
                         <Typography gutterBottom variant="h5" component="h2">
                           {gr.name}

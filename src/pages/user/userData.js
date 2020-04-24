@@ -20,7 +20,10 @@ const useStyles = makeStyles((theme) => ({
       margin: 0,
       width: "100%",
     },
-  },
+    display:"flex",
+    flexDirection: "column",
+    alignItems:"center"
+  }
 }));
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;

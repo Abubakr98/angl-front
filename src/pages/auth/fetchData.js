@@ -56,3 +56,20 @@ export const getData = (url = "", method) => {
     .then(response => response.json())
     .catch(err => err); // парсит JSON ответ в Javascript объект
 };
+export const getDataClear= (url = "", method) => {
+  
+  // Значения по умолчанию обозначены знаком *
+  return fetch(url, {
+    method: method, // *GET, POST, PUT, DELETE, etc.
+    mode: "cors", // no-cors, cors, *same-origin
+    credentials: "same-origin", // include, *same-origin, omit
+    // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+    headers: {
+      "Content-Type": "application/json",
+      // 'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    
+  })
+    .then(response => response.json())
+    .catch(err => err); // парсит JSON ответ в Javascript объект
+};

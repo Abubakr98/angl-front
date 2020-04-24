@@ -15,7 +15,8 @@ export default function StickyFooter() {
 
   return (
     <div className={classes.root}>
-      {isAuthenticated() ? <Home /> : <Redirect to="/sign-in" />}
+      {/* {isAuthenticated() ? <Home /> : <Redirect to="/sign-in" />} */}
+      <Home />
     </div>
   );
 }
