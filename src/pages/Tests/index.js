@@ -14,10 +14,28 @@ import { useParams, Redirect } from "react-router-dom";
 import { useRedirect } from "../auth/redirect";
 import styled from "styled-components";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import CardMedia from "@material-ui/core/CardMedia";
 
 const Test = styled.div`
   /* background-color: red; */
   margin: auto 0 0 0;
+`;
+const IMG = styled(CardMedia)`
+  padding-top: 56.25%;
+`;
+const BlockQ = styled.div`
+  background-color: yellow;
+  text-align: left;
+  & > div {
+    background-color: red;
+  }
+`;
+const BlockA = styled.div`
+  /* background-color: violet; */
+`;
+const MyGrid = styled(Grid)`
+  background-color: #e8ebed;
+  border-radius: 5px;
 `;
 const Btn = styled(Button)`
   /* background-color: red; */
@@ -37,28 +55,28 @@ const BtnR = styled(Button)`
     color: #fff;
   }
 `;
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    transition: "1s"
+    transition: "1s",
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: theme.palette.secondary.main,
   },
   link: {
     color: "#303F9F",
     textDecoration: "none",
     "&:hover": {
-      textDecoration: "underline"
-    }
-  }
+      textDecoration: "underline",
+    },
+  },
 }));
 
 function SignIn(props) {
-  const shuffle = arr => {
+  const shuffle = (arr) => {
     var j, temp;
     for (var i = arr.length - 1; i > 0; i--) {
       j = Math.floor(Math.random() * (i + 1));
@@ -68,40 +86,32 @@ function SignIn(props) {
     }
     return arr;
   };
-  const classes = useStyles();
   let { group } = useParams();
   const [isRedirect, handleIsRedirect] = useRedirect();
   const [questions, setQ] = useState([]);
   const [answers, setA] = useState([]);
   const [disabled, setD] = useState(false);
 
-  const path = `${URL.base +
-    URL.api +
-    URL.users +
-    props.userData.id +
-    "/" +
-    URL.study +
-    group}?limit=${5}`;
+  const path = `${
+    URL.base + URL.api + URL.users + props.userData.id + "/" + URL.study + group
+  }?limit=${5}`;
   useEffect(() => {
-    getData(path, "GET").then(data => {
+    getData(path, "GET").then((data) => {
       props.setLearningWords([...data]);
       setQ([...data]);
       setA([...data]);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [path]);// []
+  }, [path]); // []
   // #F50057
   const setQHendler = (el, index) => {
-    const userLerned = `${URL.base +
-      URL.api +
-      URL.users +
-      props.userData.id +
-      "/" +
-      URL.study}`;
+    const userLerned = `${
+      URL.base + URL.api + URL.users + props.userData.id + "/" + URL.study
+    }`;
     if (questions.length !== 1) {
       setD(true);
       if (questions[0].en === el.en) {
-        postData(userLerned, "POST", { id: el.id }).then(data => {
+        postData(userLerned, "POST", { id: el.id }).then((data) => {
           console.log(data);
         });
         setQ(questions.splice(1, questions.length));
@@ -114,7 +124,7 @@ function SignIn(props) {
       }, 500);
     } else {
       if (questions[0].en === el.en) {
-        postData(userLerned, "POST", { id: el.id }).then(data => {
+        postData(userLerned, "POST", { id: el.id }).then((data) => {
           console.log(data);
         });
       }
@@ -126,71 +136,88 @@ function SignIn(props) {
   };
   return (
     <Test>
-      <Container className={classes.con} component="main" maxWidth="xs">
-        <Grid container direction="row" justify="center" alignItems="center">
-          <CssBaseline />
-          <div className={classes.paper}>
-            <Avatar className={classes.avatar}>
+      <Container component="main" maxWidth="sm">
+        <MyGrid container spacing={3}>
+          <Grid item xs={12} sm={7}>
+            {/* <Typography component="p" variant="p">
+              Оберить правільний варіант
+            </Typography> */}
+            <BlockQ>
+              {/* <Avatar className={classes.avatar}>
               <AssignmentTurnedInRoundedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
+            </Avatar> */}
+              <Typography color="primary" component="h2" variant="h4">
+                {questions.length !== 0 ? (
+                  questions[0].en
+                ) : (
+                  <CircularProgress color="secondary" />
+                )}
+              </Typography>
+              <div>
+                <IMG
+                  image="https://source.unsplash.com/random"
+                  title="Image title"
+                />
+              </div>
+              <Typography component="p" variant="p">
               Оберить правільний варіант
             </Typography>
-            <Typography component="h2" variant="h4">
-              {questions.length !== 0 ? (
-                questions[0].en
-              ) : (
-                <CircularProgress color="secondary" />
-              )}
+            <Typography component="p" variant="p">
+              Оберить правільний варіант
             </Typography>
-            {answers.map((el, i) => {
-              return el.en === questions[0].en ? (
-                <BtnR
-                  size="large"
-                  // onMouseDown={() => setQHendler(el, i)}
-                  onClick={() => setQHendler(el, i)}
-                  variant="outlined"
-                  color="primary"
-                  disabled={disabled}
-                  key={el.id}
-                >
-                  {el.ua}
-                </BtnR>
-              ) : (
-                <Btn
-                  size="large"
-                  // onMouseDown={() => setQHendler(el, i)}
-                  onClick={() => setQHendler(el, i)}
-                  variant="outlined"
-                  color="primary"
-                  disabled={disabled}
-                  key={el.id}
-                >
-                  {el.ua}
-                </Btn>
-              );
-            })}
-          </div>
+            </BlockQ>
+          </Grid>
+          <Grid item xs={12} sm={5}>
+            <BlockA>
+              {answers.map((el, i) => {
+                return el.en === questions[0].en ? (
+                  <BtnR
+                    size="large"
+                    // onMouseDown={() => setQHendler(el, i)}
+                    onClick={() => setQHendler(el, i)}
+                    variant="outlined"
+                    color="primary"
+                    disabled={disabled}
+                    key={el.id}
+                  >
+                    {el.ua}
+                  </BtnR>
+                ) : (
+                  <Btn
+                    size="large"
+                    // onMouseDown={() => setQHendler(el, i)}
+                    onClick={() => setQHendler(el, i)}
+                    variant="outlined"
+                    color="primary"
+                    disabled={disabled}
+                    key={el.id}
+                  >
+                    {el.ua}
+                  </Btn>
+                );
+              })}
+            </BlockA>
+          </Grid>
           {isRedirect ? <Redirect to="/" /> : null}
-        </Grid>
+        </MyGrid>
       </Container>
     </Test>
   );
 }
-const mapState = state => {
+const mapState = (state) => {
   return {
     userData: state.userData,
     learningWords: state.learningWords,
-    modalSignIn: state.modalSignIn
+    modalSignIn: state.modalSignIn,
   };
 };
 
 const mapDispatch = ({
   modalSignIn: { handleClose, handleOpen },
-  learningWords: { setLearningWords }
+  learningWords: { setLearningWords },
 }) => ({
-  setLearningWords: data => setLearningWords(data),
+  setLearningWords: (data) => setLearningWords(data),
   handleClose: () => handleClose(),
-  handleOpen: data => handleOpen(data)
+  handleOpen: (data) => handleOpen(data),
 });
 export default connect(mapState, mapDispatch)(SignIn);

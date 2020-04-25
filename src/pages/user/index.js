@@ -40,7 +40,9 @@ TabPanel.propTypes = {
 
 const Test = styled.div`
   /* margin: auto 0 0 0; */
-  padding: 50px 50px;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  max-width:100%;
 `;
 const MyPaper = styled(Paper)`
   display: "flex";
