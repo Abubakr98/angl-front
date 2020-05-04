@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import React from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
@@ -32,9 +33,40 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useTheme } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/icons/Create";
+import NotInterestedIcon from "@material-ui/icons/NotInterested";
+import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import EditWord from "./word";
 import CreateWord from "./createWord";
+import styled from "styled-components";
+import CardMedia from "@material-ui/core/CardMedia";
 
+const MyTable = styled(Table)`
+  .MuiTableCell-sizeSmall {
+    padding: 5px 10px;
+  }
+  .MuiTableCell-head {
+    padding: 5px 5px;
+  }
+`;
+const WordIcon = styled.div`
+  position: relative;
+  /* background-color: green; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  & > :first-child {
+    position: absolute;
+    font-size: 23px;
+    opacity: 0.7;
+  }
+  & > :last-child {
+    font-size: 40px;
+    opacity: 0.5;
+  }
+`;
+const IMG = styled(CardMedia)`
+  padding-top: 56.25%;
+`;
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -66,6 +98,7 @@ const headCells = [
   { id: "ua", numeric: false, disablePadding: false, label: "українською" },
   { id: "des", numeric: false, disablePadding: false, label: "опис" },
   { id: "group", numeric: false, disablePadding: false, label: "група" },
+  { id: "image", numeric: false, disablePadding: false, label: "картинка" },
 ];
 
 function EnhancedTableHead(props) {
@@ -96,7 +129,7 @@ function EnhancedTableHead(props) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? "right" : "left"}
+            align={headCell.numeric ? "right" : "right"}
             padding={headCell.disablePadding ? "none" : "default"}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -253,7 +286,7 @@ function EnhancedTable(props) {
   const handleCloseDialog = () => {
     setDialog(false);
   };
-  
+
   const handleCloseDialogC = () => {
     setDialogC(false);
   };
@@ -264,12 +297,12 @@ function EnhancedTable(props) {
     setOpen({ open: false });
   };
 
-  let rows = [{ number: "Cupcake", en: 305, ua: 23, des: 312, group: 235 }];
+  let rows = [{ number: "Cupcake", en: 305, ua: 23, des: 312, group: 235, image:null }];
   if (props.learningWords.length !== 0) {
     rows = [];
     props.learningWords.map((el) => {
-      const { id, en, ua, des, group } = el;
-      rows.push({ number: id, en, ua, des, group });
+      const { id, en, ua, des, group, image } = el;
+      rows.push({ number: id, en, ua, des, group,image });
     });
   }
 
@@ -342,7 +375,6 @@ function EnhancedTable(props) {
     const lw = props.learningWords;
     deleteData(wordsUrl, "DELETE", { ids: props.selectedWords }).then(
       (data) => {
-        console.log(data);
         props.setLearningWords(remove(lw, props.selectedWords));
         setSelected([]);
         props.setSelectedWords([]);
@@ -350,13 +382,13 @@ function EnhancedTable(props) {
       }
     );
   };
-  const setEditableWords=(wordId)=>{
+  const setEditableWords = (wordId) => {
     props.setselectedWord(wordId);
-    setDialogC(true); 
-  }
- const Of = ({ from, to, count }) =>{
-    return `${from}-${to === -1 ? count : to} з ${count !== -1 ? count : to}`
-  }
+    setDialogC(true);
+  };
+  const Of = ({ from, to, count }) => {
+    return `${from}-${to === -1 ? count : to} з ${count !== -1 ? count : to}`;
+  };
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
@@ -365,7 +397,7 @@ function EnhancedTable(props) {
           numSelected={selected.length}
         />
         <TableContainer>
-          <Table
+          <MyTable
             className={classes.table}
             aria-labelledby="tableTitle"
             size={dense ? "small" : "medium"}
@@ -397,7 +429,7 @@ function EnhancedTable(props) {
                     >
                       <TableCell padding="checkbox">
                         <Checkbox
-                        onClick={(event) => handleClick(event, row.number)}
+                          onClick={(event) => handleClick(event, row.number)}
                           checked={isItemSelected}
                           inputProps={{ "aria-labelledby": labelId }}
                         />
@@ -415,11 +447,24 @@ function EnhancedTable(props) {
                       <TableCell align="right">{row.des}</TableCell>
                       <TableCell align="right">{row.group}</TableCell>
                       <TableCell align="right">
+                        {row.image !== null ? (
+                          <IMG
+                            image={`${URL.base + URL.api + row.image}`}
+                            title="Image title"
+                          />
+                        ) : (
+                          <WordIcon>
+                            <PhotoCameraIcon />
+                            <NotInterestedIcon />
+                          </WordIcon>
+                        )}
+                      </TableCell>
+                      <TableCell align="right">
                         <IconButton
                           color="primary"
                           aria-label="upload picture"
                           component="span"
-                          onClick={()=>setEditableWords(row.number)}
+                          onClick={() => setEditableWords(row.number)}
                         >
                           <Icon />
                         </IconButton>
@@ -433,9 +478,9 @@ function EnhancedTable(props) {
                 </TableRow>
               )}
             </TableBody>
-          </Table>
+          </MyTable>
         </TableContainer>
-        
+
         <TablePagination
           rowsPerPageOptions={[5, 10, 20]}
           component="div"
@@ -459,7 +504,7 @@ function EnhancedTable(props) {
         control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="Щільний показ"
       />
-       <Dialog
+      <Dialog
         fullScreen={fullScreen}
         open={dialogC}
         onClose={handleCloseDialogC}
@@ -469,7 +514,7 @@ function EnhancedTable(props) {
           {"Use Google's location service?"}
         </DialogTitle> */}
         <DialogContent>
-        <EditWord />
+          <EditWord />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialogC} color="primary" autoFocus>
@@ -493,7 +538,7 @@ function EnhancedTable(props) {
         aria-labelledby="responsive-dialog-title"
       >
         <DialogContent>
-         <CreateWord/>
+          <CreateWord />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog} color="primary" autoFocus>

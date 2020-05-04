@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import React from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
@@ -25,10 +26,9 @@ import { deleteData } from "../auth/fetchData";
 import URL from "../../urls";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { useTheme } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Icon from "@material-ui/icons/Create";
+// import useMediaQuery from "@material-ui/core/useMediaQuery";
+// import Button from "@material-ui/core/Button";
+// import Icon from "@material-ui/icons/Create";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -237,13 +237,12 @@ function EnhancedTable(props) {
     vertical: "top",
     horizontal: "center",
   });
-  const [dialog, setDialog] = React.useState(false);
-  const [dialogC, setDialogC] = React.useState(false);
-  const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
-  const handleOpenDialog = () => {
-    setDialog(true);
-  };
+  // const [dialog, setDialog] = React.useState(false);
+  // const [dialogC, setDialogC] = React.useState(false);
+  // const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  // const handleOpenDialog = () => {
+  //   setDialog(true);
+  // };
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -255,7 +254,7 @@ function EnhancedTable(props) {
   let rows = [{ number: "Cupcake", en: 305, ua: 23, des: 312, group: 235 }];
   if (props.userWords.length !== 0) {
     rows = [];
-    props.userWords.map((el) => {
+    props.userWords.map( (el) => {
       const { id, en, ua, des, group } = el;
       rows.push({ number: id, en, ua, des, group });
     });

@@ -39,7 +39,7 @@ function Words(props) {
   const pathGroups = `${URL.base + URL.api + URL.groups}`;
   useEffect(() => {
     getData(path, "GET").then((data) => {
-      props.setLearningWords([...data]);
+      props.setLearningWords([...data]);     
     });
     getData(pathGroups, "GET").then((data) => {
       props.setGroups([...data]);

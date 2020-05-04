@@ -14,59 +14,63 @@ import Skeleton from "@material-ui/lab/Skeleton";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   icon: {
-    marginRight: theme.spacing(2)
+    marginRight: theme.spacing(2),
   },
   heroContent: {
     backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 6)
+    padding: theme.spacing(8, 0, 6),
   },
   heroButtons: {
-    marginTop: theme.spacing(4)
+    marginTop: theme.spacing(4),
   },
   cardGrid: {
     paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8)
+    paddingBottom: theme.spacing(8),
   },
   card: {
     height: "100%",
     display: "flex",
-    flexDirection: "column"
+    flexDirection: "column",
   },
   cardMedia: {
-    paddingTop: "56.25%" // 16:9
+    paddingTop: "56.25%", // 16:9
   },
   cardContent: {
-    flexGrow: 1
-  }
+    flexGrow: 1,
+  },
 }));
 const cards = [1, 2, 3];
 function Home(props) {
   const classes = useStyles();
-  
+
   useEffect(() => {
-    getDataClear(`${URL.base + URL.api + URL.groups}`, "GET").then(data => {
+    getDataClear(`${URL.base + URL.api + URL.groups}`, "GET").then((data) => {
       props.setGroups(data);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);// []
+  }, []); // []
   return (
     <React.Fragment>
       {/* <CssBaseline /> */}
       <main>
         {/* Hero unit */}
-       
+
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={4}>
             {props.groups.length !== 0
-              ? props.groups.map(gr => (
+              ? props.groups.map((gr) => (
                   <Grid item key={gr.id} xs={12} sm={6} md={4}>
                     <Card className={classes.card}>
                       <CardMedia
                         className={classes.cardMedia}
-                        image="https://source.unsplash.com/random"
+                        image={
+                          gr.image
+                            ? URL.base + URL.api + gr.image
+                            : "https://source.unsplash.com/random"
+                        }
                         title="Image title"
                       />
                       <CardContent className={classes.cardContent}>
@@ -77,9 +81,9 @@ function Home(props) {
                       </CardContent>
                       <CardActions>
                         <Link to={`/tests/${gr._id}`}>
-                        <Button size="small" color="primary">
-                          Вивчати
-                        </Button>
+                          <Button size="small" color="primary">
+                            Вивчати
+                          </Button>
                         </Link>
                         <Button size="small" color="primary">
                           Додати
@@ -123,13 +127,13 @@ function Home(props) {
     </React.Fragment>
   );
 }
-const mapState = state => {
+const mapState = (state) => {
   return {
-    groups: state.groups
+    groups: state.groups,
   };
 };
 
 const mapDispatch = ({ groups: { setGroups } }) => ({
-  setGroups: data => setGroups(data)
+  setGroups: (data) => setGroups(data),
 });
 export default connect(mapState, mapDispatch)(Home);

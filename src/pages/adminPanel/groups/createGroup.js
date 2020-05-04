@@ -23,7 +23,7 @@ function Alert(props) {
 function WordCRUD(props) {
   const classes = useStyles();
   const methods = useForm();
-  const { handleSubmit, errors, control } = methods;
+  const { handleSubmit, control } = methods;
   const [state, setOpen] = React.useState({
     open: false,
     vertical: "bottom",

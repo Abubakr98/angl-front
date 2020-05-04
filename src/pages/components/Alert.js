@@ -34,7 +34,7 @@ const mapState = state => {
   const mapDispatch = ({
     modalSignIn: { handleClose }
   }) => ({
-    handleClose: () => handleClose(false)
+    handleClose: () => handleClose()
   });
   export default connect(mapState, mapDispatch)(AlertDialog);
   

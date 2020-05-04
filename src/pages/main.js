@@ -1,8 +1,8 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Home from "../pages/screens/Home";
-import { isAuthenticated } from "./auth/auth";
-import { Redirect } from "react-router-dom";
+// import { isAuthenticated } from "./auth/auth";
+// import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   root: {

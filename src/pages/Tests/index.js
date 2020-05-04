@@ -1,35 +1,21 @@
 import React, { useEffect, useState } from "react";
-import Avatar from "@material-ui/core/Avatar";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import AssignmentTurnedInRoundedIcon from "@material-ui/icons/AssignmentTurnedInRounded";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { connect } from "react-redux";
 import Grid from "@material-ui/core/Grid";
 import { getData, postData } from "../auth/fetchData";
+import Question from "./question";
 import URL from "../../urls";
 import Button from "@material-ui/core/Button";
 import { useParams, Redirect } from "react-router-dom";
 import { useRedirect } from "../auth/redirect";
 import styled from "styled-components";
-import CircularProgress from "@material-ui/core/CircularProgress";
-import CardMedia from "@material-ui/core/CardMedia";
+import Skeleton from "@material-ui/lab/Skeleton";
 
 const Test = styled.div`
   /* background-color: red; */
   margin: auto 0 0 0;
 `;
-const IMG = styled(CardMedia)`
-  padding-top: 56.25%;
-`;
-const BlockQ = styled.div`
-  background-color: yellow;
-  text-align: left;
-  & > div {
-    background-color: red;
-  }
-`;
+
 const BlockA = styled.div`
   /* background-color: violet; */
 `;
@@ -41,6 +27,8 @@ const Btn = styled(Button)`
   /* background-color: red; */
   width: 100%;
   margin-bottom: 10px;
+  text-transform: lowercase;
+  font-size: 16px;
   &:active {
     background-color: red;
     color: #fff;
@@ -50,30 +38,13 @@ const BtnR = styled(Button)`
   /* background-color: red; */
   width: 100%;
   margin-bottom: 10px;
+  text-transform: lowercase;
+  font-size: 16px;
   &:active {
     background-color: green;
     color: #fff;
   }
 `;
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    transition: "1s",
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  link: {
-    color: "#303F9F",
-    textDecoration: "none",
-    "&:hover": {
-      textDecoration: "underline",
-    },
-  },
-}));
 
 function SignIn(props) {
   const shuffle = (arr) => {
@@ -97,6 +68,12 @@ function SignIn(props) {
   }?limit=${5}`;
   useEffect(() => {
     getData(path, "GET").then((data) => {
+      if ([...data].length === 0) {
+        props.handleOpen("Ви вичили всі слова з цієї групи");
+        setTimeout(() => {
+          handleIsRedirect();
+        }, 500);
+      }
       props.setLearningWords([...data]);
       setQ([...data]);
       setA([...data]);
@@ -104,7 +81,7 @@ function SignIn(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [path]); // []
   // #F50057
-  const setQHendler = (el, index) => {
+  const setQHendler = (el) => {   
     const userLerned = `${
       URL.base + URL.api + URL.users + props.userData.id + "/" + URL.study
     }`;
@@ -139,33 +116,14 @@ function SignIn(props) {
       <Container component="main" maxWidth="sm">
         <MyGrid container spacing={3}>
           <Grid item xs={12} sm={7}>
-            {/* <Typography component="p" variant="p">
-              Оберить правільний варіант
-            </Typography> */}
-            <BlockQ>
-              {/* <Avatar className={classes.avatar}>
-              <AssignmentTurnedInRoundedIcon />
-            </Avatar> */}
-              <Typography color="primary" component="h2" variant="h4">
-                {questions.length !== 0 ? (
-                  questions[0].en
-                ) : (
-                  <CircularProgress color="secondary" />
-                )}
-              </Typography>
+            {questions.length !== 0 ? (
+              <Question data={questions[0]} />
+            ) : (
               <div>
-                <IMG
-                  image="https://source.unsplash.com/random"
-                  title="Image title"
-                />
+                <Skeleton variant="text" width={100} />
+                <Skeleton width="100%" height={118} variant="rect" />
               </div>
-              <Typography component="p" variant="p">
-              Оберить правільний варіант
-            </Typography>
-            <Typography component="p" variant="p">
-              Оберить правільний варіант
-            </Typography>
-            </BlockQ>
+            )}
           </Grid>
           <Grid item xs={12} sm={5}>
             <BlockA>
@@ -180,7 +138,7 @@ function SignIn(props) {
                     disabled={disabled}
                     key={el.id}
                   >
-                    {el.ua}
+                    {el.en}
                   </BtnR>
                 ) : (
                   <Btn
@@ -192,13 +150,48 @@ function SignIn(props) {
                     disabled={disabled}
                     key={el.id}
                   >
-                    {el.ua}
+                    {el.en}
                   </Btn>
                 );
               })}
             </BlockA>
           </Grid>
           {isRedirect ? <Redirect to="/" /> : null}
+          {questions.length !== 0 ? (
+            <>
+              <Grid item xs={12} sm={6}>
+                <Btn
+                  size="small"
+                  onClick={() => setQHendler(false)}
+                  variant="contained"
+                  color="secondary"
+                  disabled={disabled}
+                >
+                  не знаю
+                </Btn>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <BtnR
+                  size="small"
+                  onClick={() => setQHendler(questions[0])}
+                  variant="contained"
+                  color="primary"
+                  disabled={disabled}
+                >
+                  знаю це слово
+                </BtnR>
+              </Grid>
+            </>
+          ) : (
+            <>
+              <Grid item xs={12} sm={6}>
+                <Skeleton variant="text" height={35} />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <Skeleton variant="text" height={35} />
+              </Grid>
+            </>
+          )}
         </MyGrid>
       </Container>
     </Test>
