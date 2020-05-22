@@ -44,7 +44,6 @@ const useStyles = makeStyles((theme) => ({
 const cards = [1, 2, 3];
 function Home(props) {
   const classes = useStyles();
-
   useEffect(() => {
     getDataClear(`${URL.base + URL.api + URL.groups}`, "GET").then((data) => {
       props.setGroups(data);
@@ -53,12 +52,8 @@ function Home(props) {
   }, []); // []
   return (
     <React.Fragment>
-      {/* <CssBaseline /> */}
       <main>
-        {/* Hero unit */}
-
         <Container className={classes.cardGrid} maxWidth="md">
-          {/* End hero unit */}
           <Grid container spacing={4}>
             {props.groups.length !== 0
               ? props.groups.map((gr) => (
@@ -81,13 +76,13 @@ function Home(props) {
                       </CardContent>
                       <CardActions>
                         <Link to={`/tests/${gr._id}`}>
-                          <Button size="small" color="primary">
+                          <Button size="medium" color="primary">
                             Вивчати
                           </Button>
                         </Link>
-                        <Button size="small" color="primary">
+                        {/* <Button size="small" color="primary">
                           Додати
-                        </Button>
+                        </Button> */}
                       </CardActions>
                     </Card>
                   </Grid>

@@ -44,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     minHeight: "calc(100vh)",
     paddingTop: "64px",
+    // backgroundColor: '#e8ebed'
   },
   main: {
     marginTop: theme.spacing(8),

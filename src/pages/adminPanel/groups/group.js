@@ -42,7 +42,7 @@ function WordCRUD(props) {
   };
 
   const onSubmit = (data) => {
-    console.log(data);
+   
     const updateWord = `${URL.base + URL.api + URL.groups}/${group.id}`;
     console.log(updateWord);
     postData(updateWord, "PUT", data).then((data) => {
@@ -107,6 +107,7 @@ function WordCRUD(props) {
 }
 const mapState = (state) => {
   return {
+    userData: state.userData,
     groups: state.groups,
     selectedGroups: state.selectedGroups,
     selectedGroup: state.selectedGroup,

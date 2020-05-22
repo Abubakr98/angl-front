@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 function Words(props) {
   const classes = useStyles();
-  const path = `${URL.base + URL.api + URL.groups}`;
+  const path = `${URL.base + URL.api + URL.groups}/count`;
   useEffect(() => {
     getData(path, "GET").then((data) => {
       props.setGroups([...data]);
@@ -57,7 +57,7 @@ function Words(props) {
           <CssBaseline />
           <Paper className={classes.paper} elevation={3}>
             <Typography component="h1" variant="h5">
-              Слова
+              Групи
             </Typography>
             <Table />
           </Paper>

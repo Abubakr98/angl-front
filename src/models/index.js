@@ -124,14 +124,7 @@ export const selectedWord = {
   }
 };
 
-// export const groups = {
-//   state: [],
-//   reducers: {
-//     setLearningWords(state, payload) {
-//       return payload;
-//     }
-//   }
-// };
+
 export const selectedGroups = {
   state: [],
   reducers: {

@@ -34,19 +34,19 @@ function WordCRUD(props) {
     vertical: "bottom",
     horizontal: "right",
   });
+
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
     }
-    setOpen({...state, open: false });
+    setOpen({ ...state, open: false });
   };
- 
+
   const onSubmit = (data) => {
-    console.log(data);
     const updateWord = `${URL.base + URL.api + URL.words}/${word.id}`;
-    console.log(updateWord);
+    console.log(word);
     postData(updateWord, "PUT", data).then((data) => {
-      setOpen({...state, open: true });
+      setOpen({ ...state, open: true });
       props.setSelectedWords([]);
     });
   };
@@ -57,7 +57,7 @@ function WordCRUD(props) {
   };
   const word = props.learningWords.find(wordFinder);
   const getGroups = () => {
-    return props.groups.map((el) => el._id)
+    return props.groups.map((el) => el._id);
   };
   const groups = getGroups();
   return (
@@ -93,14 +93,6 @@ function WordCRUD(props) {
           rows={2}
           defaultValue={word.des}
         />
-        {/* <Controller
-          as={TextField}
-          name="group"
-          label="Опис слова"
-          required
-          control={control}
-          defaultValue={word.group}
-        /> */}
         <FormControl
           style={{ minWidth: "90%" }}
           error={Boolean(errors.wordlevel)}
@@ -157,8 +149,10 @@ const mapState = (state) => {
 const mapDispatch = ({
   learningWords: { setLearningWords },
   selectedWords: { setSelectedWords },
+  
 }) => ({
   setLearningWords: (data) => setLearningWords(data),
   setSelectedWords: (data) => setSelectedWords(data),
+  
 });
 export default connect(mapState, mapDispatch)(WordCRUD);

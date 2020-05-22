@@ -8,10 +8,10 @@ const IMG = styled(CardMedia)`
   padding-top: 56.25%;
 `;
 const BlockQ = styled.div`
-  background-color: yellow;
+  /* background-color: yellow; */
   text-align: left;
   & > div {
-    background-color: red;
+    /* background-color: red; */
   }
 `;
 function question(props) {

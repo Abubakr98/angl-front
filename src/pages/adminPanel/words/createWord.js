@@ -46,7 +46,7 @@ function WordCRUD(props) {
   };
 
   const onSubmit = (data) => {
-    console.log(data);
+   
     const createWord = `${URL.base + URL.api + URL.words}`;
     postData(createWord, "POST", data).then((data) => {
       setOpen({ ...state, open: true });

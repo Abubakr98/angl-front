@@ -8,6 +8,8 @@ import URL from "../../urls";
 import Button from "@material-ui/core/Button";
 import { useParams, Redirect } from "react-router-dom";
 import { useRedirect } from "../auth/redirect";
+import MuiAlert from "@material-ui/lab/Alert";
+import Snackbar from "@material-ui/core/Snackbar";
 import styled from "styled-components";
 import Skeleton from "@material-ui/lab/Skeleton";
 
@@ -29,10 +31,10 @@ const Btn = styled(Button)`
   margin-bottom: 10px;
   text-transform: lowercase;
   font-size: 16px;
-  &:active {
+  /* &:active {
     background-color: red;
     color: #fff;
-  }
+  } */
 `;
 const BtnR = styled(Button)`
   /* background-color: red; */
@@ -40,12 +42,14 @@ const BtnR = styled(Button)`
   margin-bottom: 10px;
   text-transform: lowercase;
   font-size: 16px;
-  &:active {
+  /* &:active {
     background-color: green;
     color: #fff;
-  }
+  } */
 `;
-
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 function SignIn(props) {
   const shuffle = (arr) => {
     var j, temp;
@@ -62,7 +66,18 @@ function SignIn(props) {
   const [questions, setQ] = useState([]);
   const [answers, setA] = useState([]);
   const [disabled, setD] = useState(false);
-
+  const [state, setOpen] = React.useState({
+    open: false,
+    vertical: "bottom",
+    horizontal: "right",
+    severity: "success",
+  });
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen({ ...state, open: false });
+  };
   const path = `${
     URL.base + URL.api + URL.users + props.userData.id + "/" + URL.study + group
   }?limit=${5}`;
@@ -81,29 +96,37 @@ function SignIn(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [path]); // []
   // #F50057
-  const setQHendler = (el) => {   
+  const setQHendler = (el) => {
     const userLerned = `${
       URL.base + URL.api + URL.users + props.userData.id + "/" + URL.study
     }`;
     if (questions.length !== 1) {
       setD(true);
       if (questions[0].en === el.en) {
-        postData(userLerned, "POST", { id: el.id }).then((data) => {
-          console.log(data);
-        });
+        postData(userLerned, "POST", { id: el.id, time: Date.now() }).then(
+          (data) => {
+            console.log(data);
+          }
+        );
+        setOpen({ ...state, open: false });
+        setOpen({ ...state, severity: "success", open: true });
         setQ(questions.splice(1, questions.length));
       } else {
+        setOpen({ ...state, open: false });
+        setOpen({ ...state, severity: "error", open: true });
         setQ(questions.splice(1, questions.length));
       }
       setTimeout(() => {
         setA(shuffle(answers));
         setD(false);
-      }, 500);
+      }, 600);
     } else {
       if (questions[0].en === el.en) {
-        postData(userLerned, "POST", { id: el.id }).then((data) => {
-          console.log(data);
-        });
+        postData(userLerned, "POST", { id: el.id, time: Date.now() }).then(
+          (data) => {
+            console.log(data);
+          }
+        );
       }
       props.handleOpen("Так тримати, ви вже вивчили 5 слів!");
       setTimeout(() => {
@@ -111,11 +134,12 @@ function SignIn(props) {
       }, 500);
     }
   };
+  const { vertical, horizontal, severity, open } = state;
   return (
     <Test>
       <Container component="main" maxWidth="sm">
         <MyGrid container spacing={3}>
-          <Grid item xs={12} sm={7}>
+          <Grid item xs={12} sm={6}>
             {questions.length !== 0 ? (
               <Question data={questions[0]} />
             ) : (
@@ -125,7 +149,7 @@ function SignIn(props) {
               </div>
             )}
           </Grid>
-          <Grid item xs={12} sm={5}>
+          <Grid item xs={12} sm={6}>
             <BlockA>
               {answers.map((el, i) => {
                 return el.en === questions[0].en ? (
@@ -194,6 +218,16 @@ function SignIn(props) {
           )}
         </MyGrid>
       </Container>
+      <Snackbar
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        // autoHideDuration={500}
+        onClose={handleClose}
+      >
+        <Alert onClose={handleClose} severity={severity}>
+          {severity === "success" ? "Вірно" : "Не вірно"}
+        </Alert>
+      </Snackbar>
     </Test>
   );
 }

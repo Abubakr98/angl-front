@@ -36,6 +36,7 @@ import Icon from "@material-ui/icons/Create";
 import NotInterestedIcon from "@material-ui/icons/NotInterested";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import EditWord from "./word";
+import UploadImage from "./image";
 import CreateWord from "./createWord";
 import styled from "styled-components";
 import CardMedia from "@material-ui/core/CardMedia";
@@ -63,9 +64,17 @@ const WordIcon = styled.div`
     font-size: 40px;
     opacity: 0.5;
   }
+  &:hover {
+    cursor: pointer;
+    opacity: 0.6;
+  }
 `;
 const IMG = styled(CardMedia)`
   padding-top: 56.25%;
+  &:hover {
+    cursor: pointer;
+    opacity: 0.6;
+  }
 `;
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -277,6 +286,7 @@ function EnhancedTable(props) {
   });
   const [dialog, setDialog] = React.useState(false);
   const [dialogC, setDialogC] = React.useState(false);
+  const [dialogI, setDialogI] = React.useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const handleOpenDialog = () => {
@@ -290,6 +300,9 @@ function EnhancedTable(props) {
   const handleCloseDialogC = () => {
     setDialogC(false);
   };
+  const handleCloseDialogI = () => {
+    setDialogI(false);
+  };
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -297,12 +310,12 @@ function EnhancedTable(props) {
     setOpen({ open: false });
   };
 
-  let rows = [{ number: "Cupcake", en: 305, ua: 23, des: 312, group: 235, image:null }];
+  let rows = []; // { number: "Cupcake", en: 305, ua: 23, des: 312, group: 235, image: null },
   if (props.learningWords.length !== 0) {
     rows = [];
     props.learningWords.map((el) => {
       const { id, en, ua, des, group, image } = el;
-      rows.push({ number: id, en, ua, des, group,image });
+      rows.push({ number: id, en, ua, des, group, image });
     });
   }
 
@@ -386,6 +399,10 @@ function EnhancedTable(props) {
     props.setselectedWord(wordId);
     setDialogC(true);
   };
+  const setWordImage = (wordId) => {
+    props.setselectedWord(wordId);
+    setDialogI(true);
+  };
   const Of = ({ from, to, count }) => {
     return `${from}-${to === -1 ? count : to} з ${count !== -1 ? count : to}`;
   };
@@ -449,11 +466,12 @@ function EnhancedTable(props) {
                       <TableCell align="right">
                         {row.image !== null ? (
                           <IMG
+                            onClick={() => setWordImage(row.number)}
                             image={`${URL.base + URL.api + row.image}`}
                             title="Image title"
                           />
                         ) : (
-                          <WordIcon>
+                          <WordIcon onClick={() => setWordImage(row.number)}>
                             <PhotoCameraIcon />
                             <NotInterestedIcon />
                           </WordIcon>
@@ -518,6 +536,21 @@ function EnhancedTable(props) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialogC} color="primary" autoFocus>
+            закрити
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog
+        fullScreen={fullScreen}
+        open={dialogI}
+        onClose={handleCloseDialogI}
+        aria-labelledby="responsive-dialog-title"
+      >
+        <DialogContent>
+          <UploadImage />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialogI} color="primary" autoFocus>
             закрити
           </Button>
         </DialogActions>

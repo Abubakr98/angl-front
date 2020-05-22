@@ -37,7 +37,7 @@ function WordCRUD(props) {
   };
 
   const onSubmit = (data) => {
-    console.log(data);
+   
     const createGroup = `${URL.base + URL.api + URL.groups}`;
     postData(createGroup, "POST", data).then((data) => {
       setOpen({ ...state, open: true });

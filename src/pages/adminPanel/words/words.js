@@ -35,11 +35,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 function Words(props) {
   const classes = useStyles();
-  const path = `${URL.base + URL.api + URL.words}`
-  const pathGroups = `${URL.base + URL.api + URL.groups}`;
+  const path = `${URL.base + URL.api + URL.words}`;
+  const pathGroups = ` ${URL.base + URL.api + URL.groups}`;
+
   useEffect(() => {
     getData(path, "GET").then((data) => {
-      props.setLearningWords([...data]);     
+      props.setLearningWords([...data]);
     });
     getData(pathGroups, "GET").then((data) => {
       props.setGroups([...data]);

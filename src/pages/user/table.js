@@ -251,7 +251,7 @@ function EnhancedTable(props) {
     setOpen({ open: false });
   };
 
-  let rows = [{ number: "Cupcake", en: 305, ua: 23, des: 312, group: 235 }];
+  let rows = [];
   if (props.userWords.length !== 0) {
     rows = [];
     props.userWords.map( (el) => {
