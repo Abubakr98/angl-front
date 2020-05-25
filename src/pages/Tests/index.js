@@ -20,32 +20,29 @@ const Test = styled.div`
 
 const BlockA = styled.div`
   /* background-color: violet; */
+  display: flex;
+  flex-direction:column;
+  justify-content: space-around;
+  min-height: 290px;
 `;
 const MyGrid = styled(Grid)`
   background-color: #e8ebed;
   border-radius: 5px;
 `;
 const Btn = styled(Button)`
-  /* background-color: red; */
   width: 100%;
   margin-bottom: 10px;
   text-transform: lowercase;
   font-size: 16px;
-  /* &:active {
-    background-color: red;
-    color: #fff;
-  } */
+  /* display: ${props => props.hide ? "none" : "block"}; */
 `;
 const BtnR = styled(Button)`
-  /* background-color: red; */
+  background-color: ${props => props.hide ? "green" : "none"};
+  color: ${props => props.hide ? "#fff" : "auto"} !important;
   width: 100%;
   margin-bottom: 10px;
   text-transform: lowercase;
   font-size: 16px;
-  /* &:active {
-    background-color: green;
-    color: #fff;
-  } */
 `;
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -110,16 +107,17 @@ function SignIn(props) {
         );
         setOpen({ ...state, open: false });
         setOpen({ ...state, severity: "success", open: true });
-        setQ(questions.splice(1, questions.length));
+        
       } else {
         setOpen({ ...state, open: false });
         setOpen({ ...state, severity: "error", open: true });
-        setQ(questions.splice(1, questions.length));
+        
       }
       setTimeout(() => {
+        setQ(questions.splice(1, questions.length));
         setA(shuffle(answers));
         setD(false);
-      }, 600);
+      }, 5000);
     } else {
       if (questions[0].en === el.en) {
         postData(userLerned, "POST", { id: el.id, time: Date.now() }).then(
@@ -161,6 +159,7 @@ function SignIn(props) {
                     color="primary"
                     disabled={disabled}
                     key={el.id}
+                    hide={disabled}
                   >
                     {el.en}
                   </BtnR>
@@ -172,6 +171,7 @@ function SignIn(props) {
                     variant="outlined"
                     color="primary"
                     disabled={disabled}
+                    hide={disabled}
                     key={el.id}
                   >
                     {el.en}
