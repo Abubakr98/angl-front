@@ -17,7 +17,6 @@ import { connect } from "react-redux";
 import { signOut, getUserData } from "../auth/auth";
 import { Link } from "react-router-dom";
 
-
 const MainColor = "#303F9F";
 
 const MyLink = styled(Link)`
@@ -143,12 +142,20 @@ function PrimarySearchAppBar(props) {
       onClose={handleMenuClose}
     >
       {userData ? (
+        <>
+          <MenuItem onClick={handleMenuClose}>
+            {userData.firstName + " " + userData.lastName}
+          </MenuItem>
+          <MenuItem onClick={handleMenuClose}>
+            <MyLink to="/user">Обліковий запис</MyLink>
+          </MenuItem>
+          <MenuItem onClick={() => signOut()}>Вихід</MenuItem>
+        </>
+      ) : (
         <MenuItem onClick={handleMenuClose}>
-          {userData.firstName + " " + userData.lastName}
+          <MyLink to="/sign-in">Вхід</MyLink>
         </MenuItem>
-      ) : null}
-      <MenuItem onClick={handleMenuClose}><MyLink to="/user">Обліковий запис</MyLink></MenuItem>
-      <MenuItem onClick={() => signOut()}>Вихід</MenuItem>
+      )}
     </Menu>
   );
 
