@@ -12,7 +12,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useInputChange } from "./useInputChange";
-import { postData } from "./fetchData";
+import { postDataClear } from "./fetchData";
 import Alert from "../components/Alert";
 import URL from "../../urls";
 import { connect } from "react-redux";
@@ -55,7 +55,7 @@ function SignIn(props) {
   const [input, handleInputChange] = useInputChange();
 
   const signIn = e => {
-    postData(`${URL.base + URL.api + URL.remindPassword}`, "POST", input).then(
+    postDataClear(`${URL.base + URL.api + URL.remindPassword}`, "POST", input).then(
       data => {
         if (data.status !== "Ok") {
           props.handleOpen(data.message);

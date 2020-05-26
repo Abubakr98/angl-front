@@ -12,7 +12,7 @@ import { Link, Redirect } from "react-router-dom";
 import { useInputChange } from "./useInputChange";
 import { useParams } from "react-router";
 import { useRedirect } from "./redirect";
-import { postData } from "./fetchData";
+import { postDataClear } from "./fetchData";
 import { connect } from "react-redux";
 import URL from "../../urls";
 import Alert from "../components/Alert";
@@ -51,7 +51,7 @@ function SignUp(props) {
   const signUp = e => {
     e.preventDefault();
     if (input.password === input.password2) {
-      postData(
+      postDataClear(
         `${URL.base + URL.api + URL.refreshPassword + token}`,
         "POST",
         input

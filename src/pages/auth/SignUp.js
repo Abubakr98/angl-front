@@ -11,55 +11,73 @@ import Container from "@material-ui/core/Container";
 import { Link, Redirect } from "react-router-dom";
 import { useInputChange } from "./useInputChange";
 import { useRedirect } from "./redirect";
-import { postData } from "./fetchData";
+import { postDataClear } from "./fetchData";
 import { connect } from "react-redux";
 import URL from "../../urls";
 import Alert from "../components/Alert";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControl from "@material-ui/core/FormControl";
 
-const useStyles =   makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
-    alignItems: "center"
+    alignItems: "center",
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: theme.palette.secondary.main,
   },
   form: {
     width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(3)
+    marginTop: theme.spacing(3),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2)
+    margin: theme.spacing(3, 0, 2),
   },
-  link:{
+  link: {
     textDecoration: "none",
     "&:hover": {
-      textDecoration: "underline"
+      textDecoration: "underline",
     },
-  }
+  },
 }));
 
 function SignUp(props) {
   const classes = useStyles();
   const [isRedirect, handleIsRedirect] = useRedirect();
+  const [value, setValue] = React.useState("basic");
   const [input, handleInputChange] = useInputChange();
-  const signUp = e => {
+  const signUp = (e) => {
     e.preventDefault();
+    if (input.password.length < 8) {
+      props.handleOpen("Мінімальна довжина паролю 8 знаків");
+      return;
+    }
     if (input.password === input.password2) {
-      postData(`${URL.base + URL.api + URL.signUp}`, "POST", input).then(data => {
-      if (!data._id) {
-        props.handleOpen(data.message);
-      } else {
-        props.handleOpen("Для того щоб активувати обліковий запис, вам відправленно повідомлення на ел-пошту з інструкціей як це зробити");
-        handleIsRedirect();
-      }
-    });
+      input.role = value;
+
+      postDataClear(`${URL.base + URL.api + URL.signUp}`, "POST", input).then(
+        (data) => {
+          if (!data._id) {
+            props.handleOpen(data.message);
+          } else {
+            props.handleOpen(
+              "Для того щоб активувати обліковий запис, вам відправленно повідомлення на ел-пошту з інструкціей як це зробити"
+            );
+            handleIsRedirect();
+          }
+        }
+      );
     } else {
       props.handleOpen("Паралі мають співпадати");
     }
+  };
+  const handleChange = (event) => {
+    setValue(event.target.value);
   };
 
   return (
@@ -135,6 +153,29 @@ function SignUp(props) {
                 id="password2"
                 onChange={handleInputChange}
               />
+              {props.userData ? (
+                props.userData.role === "admin" ? (
+                  <FormControl component="fieldset">
+                    <RadioGroup
+                      aria-label="role"
+                      name="role"
+                      value={value}
+                      onChange={handleChange}
+                    >
+                      <FormControlLabel
+                        value="basic"
+                        control={<Radio />}
+                        label="звичайний користувач"
+                      />
+                      <FormControlLabel
+                        value="admin"
+                        control={<Radio />}
+                        label="адміністратор"
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                ) : null
+              ) : null}
             </Grid>
           </Grid>
           <Button
@@ -149,27 +190,26 @@ function SignUp(props) {
           <Grid container justify="flex-end">
             <Grid item>
               <Link to="sign-in" className={classes.link}>
-                  Маєете вже обліковий запис? Вхід
+                Маєете вже обліковий запис? Вхід
               </Link>
             </Grid>
           </Grid>
         </form>
         <Alert />
-        {
-          isRedirect?(<Redirect to='/sign-in'/>):(null)
-        }
+        {isRedirect ? <Redirect to="/sign-in" /> : null}
       </div>
     </Container>
   );
 }
-const mapState = state => {
+const mapState = (state) => {
   return {
-    modalSignIn: state.modalSignIn
+    modalSignIn: state.modalSignIn,
+    userData: state.userData,
   };
 };
 
 const mapDispatch = ({ modalSignIn: { handleClose, handleOpen } }) => ({
   handleClose: () => handleClose(),
-  handleOpen: data => handleOpen(data)
+  handleOpen: (data) => handleOpen(data),
 });
 export default connect(mapState, mapDispatch)(SignUp);

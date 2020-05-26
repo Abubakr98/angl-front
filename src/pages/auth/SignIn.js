@@ -3,8 +3,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
+
 import Grid from "@material-ui/core/Grid";
 import { Link } from "react-router-dom";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -12,7 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { useInputChange } from "./useInputChange";
-import { postData } from "./fetchData";
+import { postDataClear } from "./fetchData";
 import { setUserData } from "./auth";
 import Alert from "../components/Alert";
 import URL from "../../urls";
@@ -48,9 +47,9 @@ const useStyles = makeStyles(theme => ({
 function SignIn(props) {
   const classes = useStyles();
   const [input, handleInputChange] = useInputChange();
-
   const signIn = e => {   
-    postData(`${URL.base + URL.api + URL.signIn}`, "POST", input).then(data => {
+    e.preventDefault();
+    postDataClear(`${URL.base + URL.api + URL.signIn}`, "POST", input).then(data => {
       if (!data.accessToken) {
         props.handleOpen(data.message);
       } else {
@@ -61,7 +60,7 @@ function SignIn(props) {
         window.location.pathname = "/";
       }
     });
-    e.preventDefault();
+    
   };
   return (
     <Container component="main" maxWidth="xs">
@@ -99,10 +98,6 @@ function SignIn(props) {
             id="password"
             autoComplete="current-password"
             onChange={handleInputChange}
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Запам'ятати"
           />
           <Button
             type="submit"

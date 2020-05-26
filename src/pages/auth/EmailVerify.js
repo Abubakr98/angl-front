@@ -10,7 +10,7 @@ import Container from "@material-ui/core/Container";
 import { Link, Redirect } from "react-router-dom";
 import { useParams } from "react-router";
 import { useRedirect } from "./redirect";
-import { postData } from "./fetchData";
+import { postDataClear } from "./fetchData";
 import { connect } from "react-redux";
 import URL from "../../urls";
 import Alert from "../components/Alert";
@@ -47,7 +47,7 @@ function SignUp(props) {
   let { token } = useParams();
   const signUp = e => {
     e.preventDefault();
-    postData(
+    postDataClear(
       `${URL.base + URL.api + URL.emailVerify + token}`,
       "POST",
       {},
@@ -72,7 +72,7 @@ function SignUp(props) {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Скидання паролю
+          Підтвердження пошти
         </Typography>
         <form className={classes.form} onSubmit={signUp}>
           <Button

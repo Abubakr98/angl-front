@@ -50,25 +50,28 @@ function mainListItems(props) {
         </ListItem>
       </MyLink>
       <Divider />
-      {props.userData.role === "admin" ? (
-        <>
-          <MyLink to="/admin-panel/words">
-            <ListItem button>
-              <ListItemIcon>
-                <Admin className="listItems__icon" />
-              </ListItemIcon>
-              <ListItemText primary="Слова" />
-            </ListItem>
-          </MyLink>
-          <MyLink to="/admin-panel/groups">
-            <ListItem button>
-              <ListItemIcon>
-                <Admin className="listItems__icon" />
-              </ListItemIcon>
-              <ListItemText primary="Групи" />
-            </ListItem>
-          </MyLink>
-        </>
+      {/* //props.userData.role === "admin" */}
+      {props.userData ? (
+        props.userData.role === "admin" ? (
+          <>
+            <MyLink to="/admin-panel/words">
+              <ListItem button>
+                <ListItemIcon>
+                  <Admin className="listItems__icon" />
+                </ListItemIcon>
+                <ListItemText primary="Слова" />
+              </ListItem>
+            </MyLink>
+            <MyLink to="/admin-panel/groups">
+              <ListItem button>
+                <ListItemIcon>
+                  <Admin className="listItems__icon" />
+                </ListItemIcon>
+                <ListItemText primary="Групи" />
+              </ListItem>
+            </MyLink>
+          </>
+        ) : null
       ) : null}
     </div>
   );

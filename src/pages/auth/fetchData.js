@@ -19,6 +19,23 @@ export const postData = (url = "", method, data = {}) => {
     .then((response) => response.json())
     .catch((err) => err); // парсит JSON ответ в Javascript объект
 };
+export const postDataClear = (url = "", method, data = {}) => {
+
+  return fetch(url, {
+    method: method, // *GET, POST, PUT, DELETE, etc.
+    mode: "cors", // no-cors, cors, *same-origin
+    cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: "same-origin", // include, *same-origin, omit
+    headers: {
+      "Content-Type": "application/json",
+    },
+    redirect: "follow", // manual, *follow, error
+    // referrer: "no-referrer", // no-referrer, *client
+    body: JSON.stringify(data), // тип данных в body должен соответвовать значению заголовка "Content-Type"
+  })
+    .then((response) => response.json())
+    .catch((err) => err); // парсит JSON ответ в Javascript объект
+};
 export const deleteData = (url = "", method, data = {}) => {
   const token = `Bearer ${getIdToken()}`;
   return fetch(url, {
@@ -55,7 +72,6 @@ export const getData = (url = "", method) => {
     .catch((err) => err); // парсит JSON ответ в Javascript объект
 };
 export const getDataClear = (url = "", method) => {
-  const token = `Bearer ${getIdToken()}`;
   return fetch(url, {
     method: method, // *GET, POST, PUT, DELETE, etc.
     mode: "cors", // no-cors, cors, *same-origin
@@ -63,7 +79,6 @@ export const getDataClear = (url = "", method) => {
     // cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
     headers: {
       "Content-Type": "application/json",
-      Authorization: token,
     },
     
   })
