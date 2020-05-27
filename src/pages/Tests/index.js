@@ -93,6 +93,11 @@ function SignIn(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [path]); // []
   // #F50057
+  const nextQuestion=()=>{
+        setQ(questions.splice(1, questions.length));
+        setA(shuffle(answers));
+        setD(false);
+  }
   const setQHendler = (el) => {
     const userLerned = `${
       URL.base + URL.api + URL.users + props.userData.id + "/" + URL.study
@@ -113,11 +118,11 @@ function SignIn(props) {
         setOpen({ ...state, severity: "error", open: true });
         
       }
-      setTimeout(() => {
-        setQ(questions.splice(1, questions.length));
-        setA(shuffle(answers));
-        setD(false);
-      }, 5000);
+      // setTimeout(() => {
+      //   setQ(questions.splice(1, questions.length));
+      //   setA(shuffle(answers));
+      //   setD(false);
+      // }, 5000);
     } else {
       if (questions[0].en === el.en) {
         postData(userLerned, "POST", { id: el.id, time: Date.now() }).then(
@@ -182,7 +187,19 @@ function SignIn(props) {
           </Grid>
           {isRedirect ? <Redirect to="/" /> : null}
           {questions.length !== 0 ? (
-            <>
+            disabled ?(
+              <Grid item xs={12} sm={12}>
+                <Btn
+                  size="small"
+                  onClick={nextQuestion}
+                  variant="contained"
+                  color="primary"
+                >
+                  далі
+                </Btn>
+              </Grid>
+            ):(
+              <>
               <Grid item xs={12} sm={6}>
                 <Btn
                   size="small"
@@ -206,6 +223,7 @@ function SignIn(props) {
                 </BtnR>
               </Grid>
             </>
+            )
           ) : (
             <>
               <Grid item xs={12} sm={6}>
@@ -221,7 +239,7 @@ function SignIn(props) {
       <Snackbar
         anchorOrigin={{ vertical, horizontal }}
         open={open}
-        // autoHideDuration={500}
+        autoHideDuration={1500}
         onClose={handleClose}
       >
         <Alert onClose={handleClose} severity={severity}>

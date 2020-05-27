@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 function Alert(props) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
-function WordImage(props) {
+function GroupImage(props) {
   const classes = useStyles();
   const [state, setOpen] = React.useState({
     open: false,
@@ -35,21 +35,22 @@ function WordImage(props) {
   };
   const { vertical, horizontal, open } = state;
   const wordFinder = (element) => {
-    const finder = props.selectedWord;
+    const finder = props.selectedGroup;
     return element.id === finder;
   };
-  const word = props.learningWords.find(wordFinder);
+  const group = props.groups.find(wordFinder);
   const fileChangedHandler = (event) => {
     setSlectedFile(event.target.files[0]);
   };
+
   const uploadHandler = (event) => {
     event.preventDefault();
-    const updateWord = `${URL.base + URL.api + URL.words}/${word._id}/images`;
+    const updateWord = `${URL.base + URL.api + URL.groups}/${group._id}/images`;
     const formData = new FormData();
     formData.append("filedata", selectedFile, selectedFile.name);
     uploadImage(updateWord, formData).then((data) => {
       setOpen({ ...state, open: true });
-      props.setSelectedWords([]);
+      props.setSelectedGroups([]);
     });
   };
   return (
@@ -81,13 +82,15 @@ function WordImage(props) {
 }
 const mapState = (state) => {
   return {
-    selectedWords: state.selectedWords,
-    selectedWord: state.selectedWord,
-    learningWords: state.learningWords,
     groups: state.groups,
+    selectedGroup: state.selectedGroup,
   };
 };
-const mapDispatch = ({ selectedWords: { setSelectedWords } }) => ({
-  setSelectedWords: (data) => setSelectedWords(data),
+const mapDispatch = ({
+  groups: { setGroups },
+  selectedGroups: { setSelectedGroups },
+}) => ({
+  setGroups: (data) => setGroups(data),
+  setSelectedGroups: (data) => setSelectedGroups(data),
 });
-export default connect(mapState, mapDispatch)(WordImage);
+export default connect(mapState, mapDispatch)(GroupImage);

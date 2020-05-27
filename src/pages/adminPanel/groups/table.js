@@ -34,8 +34,40 @@ import { useTheme } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Icon from "@material-ui/icons/Create";
 import EditGroup from "./group";
+import UploadImage from "./image";
+import NotInterestedIcon from "@material-ui/icons/NotInterested";
+import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import CreateGroup from "./createGroup";
+import styled from "styled-components";
+import CardMedia from "@material-ui/core/CardMedia";
 
+const IMG = styled(CardMedia)`
+  padding-top: 56.25%;
+  &:hover {
+    cursor: pointer;
+    opacity: 0.6;
+  }
+`;
+const GroupIcon = styled.div`
+  position: relative;
+  /* background-color: green; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  & > :first-child {
+    position: absolute;
+    font-size: 23px;
+    opacity: 0.7;
+  }
+  & > :last-child {
+    font-size: 40px;
+    opacity: 0.5;
+  }
+  &:hover {
+    cursor: pointer;
+    opacity: 0.6;
+  }
+`;
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -67,12 +99,13 @@ const headCells = [
   { id: "name", numeric: false, disablePadding: false, label: "Назва" },
   { id: "des", numeric: false, disablePadding: false, label: "Опис" },
   { id: "words", numeric: true, disablePadding: false, label: "К-сть слів" },
+  { id: "image", numeric: false, disablePadding: false, label: "картинка" },
 ];
 
 function EnhancedTableHead(props) {
   const {
     classes,
-    onSelectAllClick,
+    // onSelectAllClick,
     order,
     orderBy,
     numSelected,
@@ -90,7 +123,7 @@ function EnhancedTableHead(props) {
           <Checkbox
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
-            onChange={onSelectAllClick}
+            // onChange={onSelectAllClick}
             inputProps={{ "aria-label": "select all desserts" }}
           />
         </TableCell>
@@ -245,6 +278,7 @@ function EnhancedTable(props) {
   });
   const [dialog, setDialog] = React.useState(false);
   const [dialogC, setDialogC] = React.useState(false);
+  const [dialogI, setDialogI] = React.useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const handleOpenDialog = () => {
@@ -265,20 +299,12 @@ function EnhancedTable(props) {
     setOpen({ open: false });
   };
 
-  let rows = [
-    {
-      number: 305,
-      name: "305",
-      _id: 23,
-      des: "це перевіречні дані",
-      words: 235,
-    },
-  ];
+  let rows = [];
   if (props.groups.length !== 0) {
     rows = [];
     props.groups.map((el) => {
-      const { id, _id, name, des, words } = el;
-      rows.push({ number: id, _id, name, des, words });
+      const { id, _id, name, des, words, image } = el;
+      rows.push({ number: id, _id, name, des, words, image });
     });
   }
 
@@ -370,6 +396,13 @@ function EnhancedTable(props) {
     props.setSelectedGroup(groupId);
     setDialogC(true);
   };
+  const handleCloseDialogI = () => {
+    setDialogI(false);
+  };
+  const setGroupImage = (groupId) => {
+    props.setSelectedGroup(groupId);
+    setDialogI(true);
+  };
   const Of = ({ from, to, count }) => {
     return `${from}-${to === -1 ? count : to} з ${count !== -1 ? count : to}`;
   };
@@ -430,6 +463,20 @@ function EnhancedTable(props) {
                       <TableCell align="right">{row.name}</TableCell>
                       <TableCell align="right">{row.des}</TableCell>
                       <TableCell align="right">{row.words}</TableCell>
+                      <TableCell align="right">
+                        {row.image !== null ? (
+                          <IMG
+                            onClick={() => setGroupImage(row.number)}
+                            image={`${URL.base + URL.api + row.image}`}
+                            title="Image title"
+                          />
+                        ) : (
+                          <GroupIcon onClick={() => setGroupImage(row.number)}>
+                            <PhotoCameraIcon />
+                            <NotInterestedIcon />
+                          </GroupIcon>
+                        )}
+                      </TableCell>
                       <TableCell align="right">
                         <IconButton
                           color="primary"
@@ -502,6 +549,21 @@ function EnhancedTable(props) {
       >
         Створити
       </Button>
+      <Dialog
+        fullScreen={fullScreen}
+        open={dialogI}
+        onClose={handleCloseDialogI}
+        aria-labelledby="responsive-dialog-title"
+      >
+        <DialogContent>
+          <UploadImage />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialogI} color="primary" autoFocus>
+            закрити
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Dialog
         fullScreen={fullScreen}
         open={dialog}
