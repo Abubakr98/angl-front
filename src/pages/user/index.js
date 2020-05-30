@@ -96,7 +96,7 @@ function Words(props) {
             >
               <Tab label="Обліковий запис" />
               <Tab label="Вивчені слова" />
-              <Tab label="Налаштування" />
+              {/* <Tab label="Налаштування" /> */}
             </Tabs>
           </TabsPaper>
           <TabPanel value={value} index={0}>
@@ -109,9 +109,9 @@ function Words(props) {
               <Table />
             </MyPaper>
           </TabPanel>
-          <TabPanel value={value} index={2}>
+          {/* <TabPanel value={value} index={2}>
             <MyPaper elevation={3}>Налаштування</MyPaper>
-          </TabPanel>
+          </TabPanel> */}
         </Grid>
       </Container>
     </Test>
