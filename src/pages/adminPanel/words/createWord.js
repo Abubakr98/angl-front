@@ -117,7 +117,7 @@ function WordCRUD(props) {
        
       </div>
       <Button variant="contained" type="submit" color="primary">
-        створити
+      зберегти
       </Button>
       <Snackbar
         anchorOrigin={{ vertical, horizontal }}
