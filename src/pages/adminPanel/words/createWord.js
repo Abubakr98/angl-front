@@ -50,7 +50,7 @@ function WordCRUD(props) {
     const createWord = `${URL.base + URL.api + URL.words}`;
     postData(createWord, "POST", data).then((data) => {
       setOpen({ ...state, open: true });
-      props.setselectedWords([]);
+      props.setSelectedWords([]);
     });
   };
   const { vertical, horizontal, open } = state;
@@ -143,9 +143,9 @@ const mapState = (state) => {
 };
 const mapDispatch = ({
   learningWords: { setLearningWords },
-  selectedWords: { setselectedWords },
+  selectedWords: { setSelectedWords },
 }) => ({
   setLearningWords: (data) => setLearningWords(data),
-  setselectedWords: (data) => setselectedWords(data),
+  setSelectedWords: (data) => setSelectedWords(data),
 });
 export default connect(mapState, mapDispatch)(WordCRUD);
